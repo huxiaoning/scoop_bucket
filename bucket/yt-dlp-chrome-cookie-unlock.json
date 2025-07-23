@@ -18,9 +18,8 @@
         ]
     },
     "notes": [
-        "Plugin installed to $env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock.",
-        "Make sure yt-dlp is configured to load plugins from this directory.",
-        "See https://github.com/yt-dlp/yt-dlp#installing-plugins for plugin usage details."
+        "ERROR: Could not copy Chrome cookie database. See  https://github.com/yt-dlp/yt-dlp/issues/7271  for more info",
+        "使用 yt-dlp 下载视频使用参数 --cookies-from-browser chrome 提示不能复制cookie数据库？"
     ],
     "checkver": "v([\\d.]+)",
     "autoupdate": {
