@@ -1,6 +1,6 @@
 {
     "version": "2024.04.29",
-    "description": "A yt-dlp plugin that unlocks YouTube Premium content using Chrome cookies",
+    "description": "ERROR: Could not copy Chrome cookie database. See  https://github.com/yt-dlp/yt-dlp/issues/7271  for more info",
     "homepage": "https://github.com/seproDev/yt-dlp-ChromeCookieUnlock",
     "license": "Unlicense",
     "url": "https://github.com/seproDev/yt-dlp-ChromeCookieUnlock/releases/download/v2024.04.29/yt-dlp-ChromeCookieUnlock.zip",
