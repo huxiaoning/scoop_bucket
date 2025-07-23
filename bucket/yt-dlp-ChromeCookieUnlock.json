@@ -1,6 +1,6 @@
 {
     "version": "2024.04.29",
-    "description": "ERROR: Could not copy Chrome cookie database. See  https://github.com/yt-dlp/yt-dlp/issues/7271  for more info",
+    "description": "油管视频下不来?",
     "homepage": "https://github.com/seproDev/yt-dlp-ChromeCookieUnlock",
     "license": "Unlicense",
     "url": "https://github.com/seproDev/yt-dlp-ChromeCookieUnlock/releases/download/v2024.04.29/yt-dlp-ChromeCookieUnlock.zip",
@@ -18,8 +18,9 @@
         ]
     },
     "notes": [
-        "ERROR: Could not copy Chrome cookie database. See  https://github.com/yt-dlp/yt-dlp/issues/7271  for more info",
-        "使用 yt-dlp 下载视频使用参数 --cookies-from-browser chrome 提示不能复制cookie数据库？"
+        "推荐 yt-dlp --cookies-from-browser chrome",
+        "推荐 media-downloader",
+        "本插件只是协助解除chrome cookie锁定"
     ],
     "checkver": "v([\\d.]+)",
     "autoupdate": {
