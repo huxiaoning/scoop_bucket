@@ -42,6 +42,7 @@ bin/
 .DS_Store
 
 .idea/
+.kiro/
 _book
 node_modules
 SUMMARY.md
