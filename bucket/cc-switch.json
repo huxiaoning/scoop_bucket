@@ -1,0 +1,29 @@
+{
+    "version": "3.5.1",
+    "description": "CC-Switch — Claude Code / Codex 供应商切换与配置管理工具",
+    "homepage": "https://github.com/farion1231/cc-switch",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/farion1231/cc-switch/releases/download/v3.5.1/CC-Switch-v3.5.1-Windows-Portable.zip",
+            "hash": "sha256:REPLACE_WITH_REAL_HASH"
+        }
+    },
+    "extract_dir": "CC-Switch",
+    "shortcuts": [
+        [
+            "cc-switch.exe",
+            "CC-Switch"
+        ]
+    ],
+    "persist": [
+        "data",
+        "config"
+    ],
+    "checkver": {
+        "github": "https://github.com/farion1231/cc-switch"
+    },
+    "autoupdate": {
+        "url": "https://github.com/farion1231/cc-switch/releases/download/v$version/CC-Switch-v$version-Windows-Portable.zip"
+    }
+}
