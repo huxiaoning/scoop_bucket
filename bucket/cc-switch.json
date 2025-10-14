@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/farion1231/cc-switch/releases/download/v3.5.1/CC-Switch-v3.5.1-Windows-Portable.zip",
-            "hash": "sha256:REPLACE_WITH_REAL_HASH"
+            "hash": "sha256:6f932e43c3e2bc0f89a86c07f10fa612177c82c2de2632631e4585600e33bda7"
         }
     },
     "extract_dir": "CC-Switch",
