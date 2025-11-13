@@ -1,0 +1,25 @@
+{
+    "version": "0.7.9",
+    "description": "Enjoy — 人人都能用英语 AI 助教",
+    "homepage": "https://github.com/ZuodaoTech/everyone-can-use-english",
+    "license": "GPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/ZuodaoTech/everyone-can-use-english/releases/download/v0.7.9/Enjoy-0.7.9.Setup.exe",
+            "hash": "sha256:<请替换为实际哈希>"
+        }
+    },
+    "installer": {
+        "script": [
+            "Start-Process -FilePath \"$dir\\Enjoy-0.7.9.Setup.exe\" -ArgumentList '/silent' -Wait"
+        ]
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/ZuodaoTech/everyone-can-use-english/releases/download/v$version/Enjoy-$version.Setup.exe"
+            }
+        }
+    }
+}
