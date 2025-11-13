@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/ZuodaoTech/everyone-can-use-english/releases/download/v0.7.9/Enjoy-0.7.9.Setup.exe",
-            "hash": "sha256:<请替换为实际哈希>"
+            "hash": "sha256:6E7BE3BF08148396CB8E5D2FD4CB0B961DAEE0815F73414D8C1B99379AB87B54"
         }
     },
     "installer": {
