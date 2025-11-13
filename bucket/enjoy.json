@@ -16,7 +16,16 @@
     },
     "uninstaller": {
         "script": [
-            "Start-Process -FilePath \"$env:LOCALAPPDATA\\enjoy\\Update.exe\" -ArgumentList '--uninstall' -Wait"
+            "Write-Host 'Uninstalling Enjoy...'",
+            "if (Test-Path \"$env:LOCALAPPDATA\\enjoy\") {",
+            "  try {",
+            "    Start-Process -FilePath \"$env:LOCALAPPDATA\\enjoy\\Update.exe\" -ArgumentList '--uninstall' -Wait -ErrorAction SilentlyContinue",
+            "  } catch {}",
+            "  Remove-Item -Recurse -Force \"$env:LOCALAPPDATA\\enjoy\" -ErrorAction SilentlyContinue",
+            "  Write-Host 'Enjoy has been removed from LocalAppData.'",
+            "} else {",
+            "  Write-Host 'Enjoy not found under LocalAppData.'",
+            "}"
         ]
     },
     "checkver": "github",
