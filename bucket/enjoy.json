@@ -14,6 +14,11 @@
             "Start-Process -FilePath \"$dir\\Enjoy-0.7.9.Setup.exe\" -ArgumentList '/silent' -Wait"
         ]
     },
+    "uninstaller": {
+        "script": [
+            "Start-Process -FilePath \"$env:LOCALAPPDATA\\enjoy\\Update.exe\" -ArgumentList '--uninstall' -Wait"
+        ]
+    },
     "checkver": "github",
     "autoupdate": {
         "architecture": {
