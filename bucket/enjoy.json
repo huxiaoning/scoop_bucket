@@ -28,6 +28,12 @@
             "}"
         ]
     },
+    "shortcuts": [
+        [
+            "Enjoy.exe",
+            "Enjoy"
+        ]
+    ],
     "checkver": "github",
     "autoupdate": {
         "architecture": {
