@@ -1,6 +1,6 @@
 {
     "version": "1.0",
-    "description": "剪切板增强",
+    "description": "剪切板增强,目前处理于不可用状态",
     "homepage": "https://github.com/huxiaoning/scoop_bucket/tree/master/hxn_scripts",
     "url": "https://raw.githubusercontent.com/huxiaoning/scoop_bucket/refs/heads/master/hxn_scripts/clipboardBooster.ps1",
     "hash": "e6dfa4fabad6e5a0ba2f8921617f355eceb826434276ebce7b2194dd754b17be",
