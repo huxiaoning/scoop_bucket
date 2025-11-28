@@ -1,0 +1,6 @@
+{
+    "version": "1.0",
+    "homepage": "https://github.com/huxiaoning/scoop_bucket/tree/master/hxn_scripts",
+    "url": "https://raw.githubusercontent.com/huxiaoning/scoop_bucket/refs/heads/master/hxn_scripts/clipboard.ps1",
+    "bin": "clipboard.ps1"
+}
