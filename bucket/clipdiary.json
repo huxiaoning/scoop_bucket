@@ -19,7 +19,7 @@
     ],
     "checkver": {
         "url": "https://clipdiary.com/download",
-        "regex": "(\\d{1,2}\\.\\d{1,2})"
+        "regex": ">((\\d+\\.)+\\d+)<"
     },
     "autoupdate": {
         "architecture": {
