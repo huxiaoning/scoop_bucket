@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__duckduckgo-search__search",
+      "mcp__desktop-commander__start_process",
+      "mcp__desktop-commander__read_process_output",
+      "mcp__desktop-commander__read_multiple_files",
+      "Bash(curl:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
