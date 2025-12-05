@@ -7,7 +7,7 @@
         "url": "https://github.com/supzza/clianpro#MIT-1-ov-file"
     },
     "url": "https://github.com/supzza/clianpro/releases/download/2.1.7/Pro_2.1.7_x64-setup.exe",
-    "hash": "",
+    "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
     "bin": "tauri-app.exe",
     "shortcuts": [
         [
