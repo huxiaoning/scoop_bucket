@@ -7,7 +7,7 @@
         "url": "https://github.com/supzza/clianpro#MIT-1-ov-file"
     },
     "url": "https://github.com/supzza/clianpro/releases/download/2.1.5/Pro_2.1.5_x64-setup.exe",
-    "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
+    "hash": "d41ec91034fd2938dfa2a09cdaa57c28fa29cb5aa3adc3338b899009c317b6c7",
     "installer": {
         "script": [
             "7z x \"$dir\\Pro_2.1.5_x64-setup.exe\" -o\"$dir\\_extract\" | Out-Null",
