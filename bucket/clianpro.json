@@ -8,7 +8,19 @@
     },
     "url": "https://github.com/supzza/clianpro/releases/download/2.1.7/Pro_2.1.7_x64-setup.exe",
     "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
-    "bin": "tauri-app.exe",
+    "installer": {
+        "script": [
+            "7z x \"$dir\\Pro_2.1.7_x64-setup.exe\" -o\"$dir\\_extract\" | Out-Null",
+            "Get-ChildItem \"$dir\\_extract\" -Recurse | ForEach-Object { Move-Item $_.FullName -Destination $dir -Force }",
+            "Remove-Item \"$dir\\_extract\" -Recurse -Force"
+        ]
+    },
+    "bin": [
+        [
+            "tauri-app.exe",
+            "clianpro"
+        ]
+    ],
     "shortcuts": [
         [
             "tauri-app.exe",
