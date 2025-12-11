@@ -9,11 +9,11 @@
     "url": "https://github.com/huxiaoning/external-application-button/releases/download/1.0/windows.zip",
     "hash": "sha256:F9225AA039033900D3FA6733EFEF01DBD55150F922FEAC3FE198D2373F46D6D2",
     "post_install": [
-        "Write-Host \"Running install.bat...\"",
-        "cmd /c \"$dir\\install.bat\""
+        "Write-Host \"Running install.bat without pause...\"",
+        "cmd /c \"$dir\\install.bat < nul\""
     ],
     "pre_uninstall": [
-        "Write-Host \"Running uninstall.bat...\"",
-        "cmd /c \"$dir\\uninstall.bat\""
+        "Write-Host \"Running uninstall.bat without pause...\"",
+        "cmd /c \"$dir\\uninstall.bat < nul\""
     ]
 }
