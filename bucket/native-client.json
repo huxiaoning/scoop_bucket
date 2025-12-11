@@ -6,9 +6,9 @@
         "identifier": "MPL-2.0 license",
         "url": "https://github.com/andy-portmen/external-application-button?tab=MPL-2.0-1-ov-file"
     },
-    "suggest": {
-        "nodejs-lts": "main/nodejs-lts"
-    },
+    "depends": [
+        "nodejs-lts"
+    ],
     "url": "https://github.com/andy-portmen/native-client/releases/download/1.0.6/windows.zip",
     "hash": "sha256:F9225AA039033900D3FA6733EFEF01DBD55150F922FEAC3FE198D2373F46D6D2",
     "post_install": [
