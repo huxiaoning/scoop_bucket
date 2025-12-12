@@ -13,5 +13,5 @@ Executable Name
 wt
 
 Arguments
-pwsh -NoExit -Command "ytbest  [HREF]"
+pwsh -NoExit -Command "ytbest [HREF]"
 ```
