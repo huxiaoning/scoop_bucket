@@ -4,7 +4,7 @@ param(
 )
 
 ytdownloader
-Set-Clipboard [HREF]
+Set-Clipboard $Url
 
 $wshell = New-Object -ComObject WScript.Shell
 $wshell.SendKeys('^v')
