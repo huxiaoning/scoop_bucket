@@ -10,7 +10,7 @@
         "ytdownloader"
     ],
     "url": "https://raw.githubusercontent.com/huxiaoning/scoop_bucket/refs/heads/master/hxn_scripts/ytd.ps1",
-    "hash": "sha256:ffe7339c6819df6349e5c3b28fe76dc71b7df230225275aee446017f8d1555de",
+    "hash": "sha256:79991feb3d303efc28e828db1075ce9eb87e23ced12cb0b54c1670e550e01680",
     "bin": "ytd.ps1",
     "notes": [
         "Usage:",
