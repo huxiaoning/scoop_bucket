@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "description": "自用 mitmproxy 脚本。",
+    "homepage": "https://github.com/huxiaoning/scoop_bucket/blob/master/hxn_scripts/mitm.ps1",
+    "license": "MIT",
+    "depends": [
+        "mitmproxy"
+    ],
+    "url": "https://raw.githubusercontent.com/huxiaoning/scoop_bucket/refs/heads/master/hxn_scripts/mitm.ps1",
+    "hash": "sha256:29ECF8AE5D664809B58E8344EC4E22001C93CFF77A2D8A0884280491A8C1ADCE",
+    "bin": "mitm.ps1",
+    "notes": [
+        "Usage:",
+        "  mitm"
+    ]
+}
