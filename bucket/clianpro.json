@@ -28,7 +28,9 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/supzza/clianpro"
+        "url": "https://api.github.com/repos/supzza/clianpro/releases",
+        "jp": "$[0].assets[*].browser_download_url",
+        "regex": "/releases/download/([\\d.]+)/(?<file>Pro.*\\.exe)"
     },
     "autoupdate": {
         "url": "https://github.com/supzza/clianpro/releases/download/$version/Pro_$version_x64-setup.exe"
