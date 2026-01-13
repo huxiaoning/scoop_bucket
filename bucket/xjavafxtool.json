@@ -1,6 +1,6 @@
 {
     "version": "1.0.1",
-    "description": "xJavaFxTool - JavaFX 实用工具集",
+    "description": "xJavaFxTool - JavaFX 工具集",
     "homepage": "https://github.com/864381832/xJavaFxTool",
     "license": "UNKNOWN",
     "url": "https://github.com/864381832/xJavaFxTool/releases/download/v1.0.1/xJavaFxTool-1.0.1-windows-x64.exe",
@@ -8,7 +8,9 @@
     "installer": {
         "script": [
             "7z x \"$dir\\xJavaFxTool-1.0.1-windows-x64.exe\" -o\"$dir\"",
-            "Remove-Item \"$dir\\xJavaFxTool-1.0.1-windows-x64.exe\""
+            "Remove-Item \"$dir\\xJavaFxTool-1.0.1-windows-x64.exe\"",
+            "Move-Item \"$dir\\app\\*\" \"$dir\"",
+            "Remove-Item \"$dir\\app\" -Recurse -Force"
         ]
     },
     "bin": "xJavaFxTool.exe",
