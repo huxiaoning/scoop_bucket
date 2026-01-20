@@ -14,8 +14,8 @@
         }
     },
     "pre_install": [
-        "if ([Environment]::OSVersion.Version.Major -lt \"10\" -or [System.Environment]::OSVersion.Version.Build -lt 22000) {",
-        "    throw \"Bili.Copilot requires Windows 11 or later to work.\"",
+        "if ([System.Environment]::OSVersion.Version.Build -lt 22000) {",
+        "    throw 'Bili.Copilot requires Windows 11 or later.'",
         "}"
     ],
     "installer": {
@@ -31,14 +31,8 @@
     "uninstaller": {
         "script": [
             "$packages = Get-AppxPackage Richasy.BiliCopilot* -ErrorAction SilentlyContinue",
-            "if (!$packages) {",
-            "    warn \"Bili.Copilot is not installed as an AppX package.\"",
-            "    return",
-            "}",
-            "$packages | ForEach-Object {",
-            "    Write-Host \"Removing AppX package: $($_.PackageFullName)\"",
-            "    Remove-AppxPackage $_",
-            "}"
+            "if (!$packages) { warn 'Bili.Copilot is not installed as an AppX package.' ; return }",
+            "$packages | ForEach-Object { Remove-AppxPackage $_ }"
         ]
     },
     "checkver": "github",
