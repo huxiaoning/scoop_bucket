@@ -20,8 +20,6 @@
     ],
     "installer": {
         "script": [
-            "$conflict = Get-AppxPackage Richasy.BiliCopilot.Dev -ErrorAction SilentlyContinue",
-            "if ($conflict) { throw 'Detected Richasy.BiliCopilot.Dev (developer version). Please uninstall it first.' }",
             "$main = Get-ChildItem \"$dir\\*.msix\" | Where-Object { $_.Name -notmatch 'WindowsAppRuntime' }",
             "if (!$main) { throw 'Main MSIX package not found.' }",
             "$arch = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'arm64' } else { 'x64' }",
@@ -31,7 +29,7 @@
             "try {",
             "    Add-AppxPackage -Path $main.FullName -DependencyPath ($deps.FullName) -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion -ErrorAction Stop",
             "} catch {",
-            "    throw \"Failed to install Bili.Copilot MSIX package: $_\"",
+            "    Write-Warning \"Failed to install Bili.Copilot MSIX package automatically. You may need to install it manually in developer mode: $_\"",
             "}"
         ]
     },
