@@ -23,16 +23,26 @@
             "$conflict = Get-AppxPackage Richasy.BiliCopilot.Dev -ErrorAction SilentlyContinue",
             "if ($conflict) { throw 'Detected Richasy.BiliCopilot.Dev (developer version). Please uninstall it first.' }",
             "$main = Get-ChildItem \"$dir\\*.msix\" | Where-Object { $_.Name -notmatch 'WindowsAppRuntime' }",
-            "$deps = Get-ChildItem \"$dir\\Dependencies\\x64\\*.msix\" -ErrorAction SilentlyContinue",
-            "if (!$main) { throw 'Main MSIX package not found' }",
-            "Add-AppxPackage -Path $main.FullName -DependencyPath ($deps.FullName) -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion"
+            "if (!$main) { throw 'Main MSIX package not found.' }",
+            "$arch = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'arm64' } else { 'x64' }",
+            "$depsPath = \"$dir\\Dependencies\\$arch\"",
+            "$deps = @()",
+            "if (Test-Path $depsPath) { $deps = Get-ChildItem \"$depsPath\\*.msix\" }",
+            "try {",
+            "    Add-AppxPackage -Path $main.FullName -DependencyPath ($deps.FullName) -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion -ErrorAction Stop",
+            "} catch {",
+            "    throw \"Failed to install Bili.Copilot MSIX package: $_\"",
+            "}"
         ]
     },
     "uninstaller": {
         "script": [
             "$packages = Get-AppxPackage Richasy.BiliCopilot* -ErrorAction SilentlyContinue",
             "if (!$packages) { warn 'Bili.Copilot is not installed as an AppX package.' ; return }",
-            "$packages | ForEach-Object { Remove-AppxPackage $_ }"
+            "$packages | ForEach-Object {",
+            "    Write-Host \"Removing AppX package: $($_.PackageFullName)\"",
+            "    Remove-AppxPackage $_.PackageFullName",
+            "}"
         ]
     },
     "checkver": "github",
