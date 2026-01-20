@@ -9,7 +9,7 @@
             "hash": "e560580f1eb5ea60ca50d592aaef4c7ea213ed0c96e534b0f96dbe78757f3bb1"
         },
         "arm64": {
-            "url": " https://github.com/Richasy/Bili.Copilot/releases/download/v2.2505.2.0/BiliCopilot_2.2505.2.0_arm64.7z",
+            "url": "https://github.com/Richasy/Bili.Copilot/releases/download/v2.2505.2.0/BiliCopilot_2.2505.2.0_arm64.7z",
             "hash": "22df89c510a43966ba040f403ba899b0e354c573d8b85272ab3da1641a31c4bd"
         }
     },
@@ -20,6 +20,8 @@
     ],
     "installer": {
         "script": [
+            "$conflict = Get-AppxPackage Richasy.BiliCopilot.Dev -ErrorAction SilentlyContinue",
+            "if ($conflict) { throw 'Detected Richasy.BiliCopilot.Dev (developer version). Please uninstall it first.' }",
             "$main = Get-ChildItem \"$dir\\*.msix\" | Where-Object { $_.Name -notmatch 'WindowsAppRuntime' }",
             "$deps = Get-ChildItem \"$dir\\Dependencies\\x64\\*.msix\" -ErrorAction SilentlyContinue",
             "if (!$main) { throw 'Main MSIX package not found' }",
@@ -46,7 +48,7 @@
                 "url": "https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_x64.7z"
             },
             "arm64": {
-                "url": " https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_arm64.7z"
+                "url": "https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_arm64.7z"
             }
         }
     }
