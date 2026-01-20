@@ -20,18 +20,22 @@
     ],
     "installer": {
         "script": [
-            "Get-ChildItem \"$dir\\Dependencies\\*64\\*.msix\" | Add-AppxPackage -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion",
-            "Get-ChildItem \"$dir\\*.msix\" | Add-AppxPackage -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion"
+            "$main = Get-ChildItem \"$dir\\*.msix\" | Where-Object { $_.Name -notmatch 'WindowsAppRuntime' }",
+            "$deps = Get-ChildItem \"$dir\\Dependencies\\x64\\*.msix\" -ErrorAction SilentlyContinue",
+            "if (!$main) { throw 'Main MSIX package not found' }",
+            "Add-AppxPackage -Path $main.FullName -DependencyPath ($deps.FullName) -ForceTargetApplicationShutdown -AllowUnsigned -ForceUpdateFromAnyVersion"
         ]
     },
     "uninstaller": {
         "script": [
-            "$package = Get-AppxPackage 'Richasy.Bili.Copilot'",
-            "if (!$package) { warn \"$app is already uninstalled out of scoop.\" ; return }",
-            "if ($purge) {",
-            "    Remove-AppxPackage $package",
-            "} else {",
-            "    Remove-AppxPackage $package -PreserveRoamableApplicationData",
+            "$packages = Get-AppxPackage Richasy.BiliCopilot* -ErrorAction SilentlyContinue",
+            "if (!$packages) {",
+            "    warn \"Bili.Copilot is not installed as an AppX package.\"",
+            "    return",
+            "}",
+            "$packages | ForEach-Object {",
+            "    Write-Host \"Removing AppX package: $($_.PackageFullName)\"",
+            "    Remove-AppxPackage $_",
             "}"
         ]
     },
@@ -39,7 +43,7 @@
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_x64.7z "
+                "url": "https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_x64.7z"
             },
             "arm64": {
                 "url": " https://github.com/Richasy/Bili.Copilot/releases/download/v$version/BiliCopilot_$version_arm64.7z"
