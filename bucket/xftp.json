@@ -1,5 +1,5 @@
 {
-    "version": "8.0.0086",
+    "version": "8.0.0095",
     "license": {
         "identifier": "Freeware",
         "url": "https://www.xshell.com/docs/ver8_free_eula.pdf"
@@ -7,8 +7,8 @@
     "description": "Effortless File Transfers Over A Network",
     "homepage": "https://www.xshell.com/free-for-home-school/",
     "depends": "isx",
-    "url": "https://cdn.netsarang.net/b9dd7d10/Xftp-8.0.0086p.exe#/installer.exe",
-    "hash": "1d834a60cd0b7c3a01c6b5eaf59b1065593d85a58fcfa4e724eccff1603252de",
+    "url": "https://cdn.netsarang.net/68a8c002/Xftp-8.0.0095p.exe#/installer.exe",
+    "hash": "7ded739954f5b95f63e93742989dc304c4beb8b483fb24aa750047f4278652f8",
     "checkver": {
         "script": [
             "$dl_url = 'https://cdn.netsarang.net/v8/Xftp-latest-p'",
