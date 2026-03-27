@@ -5,6 +5,7 @@
     "license": "GPL-3.0",
     "url": "https://github.com/umlx5h/LLPlayer/releases/download/v0.2.2/LLPlayer-v0.2.2-x64.7z",
     "hash": "3063467d9942b18faae429beea8342ff239af5c83ca5607dd2072a6927151730",
+    "pre_install": "if (!(is_admin)) { error 'Admin privileges are required.'; break }",
     "shortcuts": [
         [
             "LLPlayer.exe",
