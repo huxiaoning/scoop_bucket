@@ -9,7 +9,7 @@
         "yt-dlp-ChromeCookieUnlock"
     ],
     "url": "https://raw.githubusercontent.com/huxiaoning/ytbest/refs/heads/main/ytlist.ps1",
-    "hash": "sha256:86fbd27309f4a0ec311c7a34061197cbc55d485ea4b0953b41ce709e705dc0d8",
+    "hash": "sha256:7EA6945D7B192D1791301E30046529DA286795EF02DD4F645A0AE0945BD4AB50",
     "bin": "ytlist.ps1",
     "notes": [
         "Usage:",
