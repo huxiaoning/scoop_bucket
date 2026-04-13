@@ -6,6 +6,7 @@
     "depends": [
         "yt-dlp",
         "ffmpeg",
+        "aria2",
         "yt-dlp-ChromeCookieUnlock"
     ],
     "url": "https://raw.githubusercontent.com/huxiaoning/ytbest/refs/heads/main/ytlist.ps1",
