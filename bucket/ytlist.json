@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0",
+    "description": "Download highest quality YouTube video + audio List using yt-dlp and ffmpeg.",
+    "homepage": "https://github.com/huxiaoning/ytbest",
+    "license": "MIT",
+    "depends": [
+        "yt-dlp",
+        "ffmpeg",
+        "yt-dlp-ChromeCookieUnlock"
+    ],
+    "url": "https://raw.githubusercontent.com/huxiaoning/ytbest/refs/heads/main/ytlist.ps1",
+    "hash": "sha256:0ff6025c6933eae27dd9496619f6dfd87aca56e774c364c0cbc2f6d00b946ecb",
+    "bin": "ytlist.ps1",
+    "notes": [
+        "Usage:",
+        "  ytlist <YouTube_List_URL>"
+    ]
+}
