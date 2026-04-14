@@ -13,9 +13,6 @@
     "bin": "ytbest.ps1",
     "notes": [
         "Usage:",
-        "  ytbest <YouTube_URL>",
-        "",
-        "Example:",
-        "  ytbest https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        "  ytbest <YouTube_URL>"
     ]
 }
