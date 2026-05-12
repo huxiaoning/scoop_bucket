@@ -36,7 +36,10 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
 
 - **extract_dir**: 解压后的目录名
 - **bin**: 要添加到 PATH 的可执行文件
-- **shortcuts**: 开始菜单快捷方式
+- **shortcuts**: 开始菜单快捷方式（数组，每项包含 [路径, 显示名称]）
+  - 压缩包应用：路径相对于 $dir，如 `["app.exe", "App Name"]`
+  - InnoSetup 应用：路径相对于 extract_dir，如 `["app.exe", "App Name"]`
+  - MSI 应用：使用 PFiles 前缀，如 `["PFiles\\AppName\\app.exe", "App Name"]`
 - **persist**: 需要持久化的目录或文件
 - **pre_install**: 安装前执行的 PowerShell 脚本
 - **post_install**: 安装后执行的 PowerShell 脚本
@@ -215,7 +218,49 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
         }
     },
     "innosetup": true,
-    "bin": "app.exe"
+    "extract_dir": "{code_GetDestDir}",
+    "shortcuts": [
+        [
+            "app.exe",
+            "App Name"
+        ]
+    ]
+}
+```
+
+### MSI 安装程序
+
+```json
+{
+    "version": "1.0.0",
+    "description": "应用描述",
+    "homepage": "https://example.com",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://example.com/app-1.0.0.msi",
+            "hash": "abc123..."
+        }
+    },
+    "installer": {
+        "script": "Start-Process msiexec -ArgumentList @('/i', \"`\"$dir\\$fname`\"\", '/qn', '/norestart') -Wait -NoNewWindow"
+    },
+    "shortcuts": [
+        [
+            "PFiles\\AppName\\app.exe",
+            "App Name"
+        ]
+    ],
+    "uninstaller": {
+        "script": [
+            "$productCode = Get-ItemProperty 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' | Where-Object { $_.DisplayName -like '*App Name*' } | Select-Object -ExpandProperty PSChildName",
+            "if ($productCode) {",
+            "    Start-Process msiexec -ArgumentList @('/x', $productCode, '/qn', '/norestart') -Wait -NoNewWindow",
+            "} else {",
+            "    warn 'App Name product code not found in registry'",
+            "}"
+        ]
+    }
 }
 ```
 
@@ -230,6 +275,10 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
 4. **持久化数据**：使用 `persist` 字段保存用户配置和数据
 
 5. **快捷方式**：为 GUI 应用添加 `shortcuts` 字段，方便用户访问
+   - 格式：`[["路径", "显示名称"]]`，可以包含多个快捷方式
+   - 压缩包/InnoSetup：路径相对于应用目录，如 `["app.exe", "App Name"]`
+   - MSI 安装包：使用 `PFiles` 前缀指向 Program Files，如 `["PFiles\\AppName\\app.exe", "App Name"]`
+   - 快捷方式会自动创建在开始菜单的 Scoop Apps 文件夹中
 
 6. **脚本钩子**：使用 `pre_install`、`post_install` 等钩子处理特殊安装需求
 
@@ -262,6 +311,9 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
 - URL 应该是直接下载链接，不是网页链接
 - 版本号应该与上游保持一致
 - 许可证标识符应该使用 SPDX 标准（如 MIT、GPL-3.0、Apache-2.0）
+- 快捷方式路径使用反斜杠 `\\` 作为路径分隔符
+- MSI 应用的快捷方式必须使用 `PFiles\\` 前缀，因为 MSI 安装到 Program Files
+- 快捷方式的显示名称应该简洁明了，通常使用应用的正式名称
 
 ## 输出格式
 
