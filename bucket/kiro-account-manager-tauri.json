@@ -18,7 +18,7 @@
     "shortcuts": [
         [
             "PFiles\\KiroAccountManager\\kiro-account-manager.exe",
-            "Kiro Account Manager"
+            "Kiro Account Manager Tauri"
         ]
     ],
     "uninstaller": {
