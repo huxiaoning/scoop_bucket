@@ -14,7 +14,12 @@
       "Bash(export PYTHONIOENCODING=utf-8)",
       "Bash(tar -czf scoop-manifest-maker.skill scoop-manifest-maker/)",
       "WebFetch(domain:github.com)",
-      "Bash(./bin/formatjson.ps1 kiro-account-manager *)"
+      "Bash(./bin/formatjson.ps1 kiro-account-manager *)",
+      "Bash(gh api *)",
+      "Bash(./bin/formatjson.ps1 *)",
+      "PowerShell(.\\\\bin\\\\formatjson.ps1 bucket\\\\kiro-account-manager-electron.json)",
+      "PowerShell(.\\\\bin\\\\test.ps1 kiro-account-manager-electron)",
+      "PowerShell(scoop *)"
     ],
     "deny": [],
     "ask": []
