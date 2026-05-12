@@ -6,7 +6,15 @@
       "mcp__desktop-commander__read_process_output",
       "mcp__desktop-commander__read_multiple_files",
       "Bash(curl:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(npx skills *)",
+      "Read(//c/Users/huxiaoning/.cc-switch/skills/skill-creator/**)",
+      "Bash(python -m scripts.package_skill ~/.claude/skills/scoop-manifest-maker)",
+      "Bash(iconv -f gbk -t utf-8)",
+      "Bash(export PYTHONIOENCODING=utf-8)",
+      "Bash(tar -czf scoop-manifest-maker.skill scoop-manifest-maker/)",
+      "WebFetch(domain:github.com)",
+      "Bash(./bin/formatjson.ps1 kiro-account-manager *)"
     ],
     "deny": [],
     "ask": []
