@@ -1,16 +1,16 @@
 {
-    "version": "1.7.11",
+    "version": "1.7.10",
     "description": "Windsurf Account Manager - 简化版账号管理工具",
     "homepage": "https://github.com/chaogei/windsurf-account-manager-simple",
     "license": "AGPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.11_x64-setup.exe#/dl.7z",
-            "hash": "91c1a44e999f63f4b0039d38fdc758bd0a152b2920f158ab4f672dce05e3016e"
+            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.10_x64-setup.exe#/dl.7z",
+            "hash": "ffb36ae33e758f7e5ed3910d1384ca9cb7ff55e2369d64a0147ca77de0c5d848"
         },
         "arm64": {
-            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.11_arm64-setup.exe#/dl.7z",
-            "hash": "a5e1dfb267f9b123dda439ef3b1481fb498057251a0371ca6fe96da0166b7ddf"
+            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.10_arm64-setup.exe#/dl.7z",
+            "hash": "979caa97b127159e6e419b7fa21d06fd1100d735c37aa2e25cb3dd7dda88c324"
         }
     },
     "post_install": "Remove-Item -LiteralPath \"$dir\\`$PLUGINSDIR\" -Force -Recurse",
