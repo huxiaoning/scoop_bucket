@@ -19,7 +19,11 @@
       "Bash(./bin/formatjson.ps1 *)",
       "PowerShell(.\\\\bin\\\\formatjson.ps1 bucket\\\\kiro-account-manager-electron.json)",
       "PowerShell(.\\\\bin\\\\test.ps1 kiro-account-manager-electron)",
-      "PowerShell(scoop *)"
+      "PowerShell(scoop *)",
+      "Bash(gh repo *)",
+      "Bash(gh release *)",
+      "Bash(awk '{print $1}')",
+      "Bash(pwsh *)"
     ],
     "deny": [],
     "ask": []

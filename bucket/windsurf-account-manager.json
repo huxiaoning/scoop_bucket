@@ -1,0 +1,38 @@
+{
+    "version": "1.7.11",
+    "description": "Windsurf Account Manager - 简化版账号管理工具",
+    "homepage": "https://github.com/chaogei/windsurf-account-manager-simple",
+    "license": "AGPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.11_x64-setup.exe#/dl.7z",
+            "hash": "91c1a44e999f63f4b0039d38fdc758bd0a152b2920f158ab4f672dce05e3016e"
+        },
+        "arm64": {
+            "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v1.7.10/windsurf-account-manager_1.7.11_arm64-setup.exe#/dl.7z",
+            "hash": "a5e1dfb267f9b123dda439ef3b1481fb498057251a0371ca6fe96da0166b7ddf"
+        }
+    },
+    "post_install": "Remove-Item -LiteralPath \"$dir\\`$PLUGINSDIR\" -Force -Recurse",
+    "shortcuts": [
+        [
+            "windsurf-account-manager.exe",
+            "Windsurf Account Manager"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/chaogei/windsurf-account-manager-simple/releases/latest",
+        "jsonpath": "$.assets[?(@.name =~ /.*_x64-setup\\.exe$/)].name",
+        "regex": "windsurf-account-manager_([\\d.]+)_x64-setup\\.exe"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v$matchHead/windsurf-account-manager_$version_x64-setup.exe#/dl.7z"
+            },
+            "arm64": {
+                "url": "https://github.com/chaogei/windsurf-account-manager-simple/releases/download/v$matchHead/windsurf-account-manager_$version_arm64-setup.exe#/dl.7z"
+            }
+        }
+    }
+}
