@@ -1,38 +1,49 @@
 {
     "version": "2.1.7",
     "description": "Clian Pro – 一个跨平台的命令面板工具",
-    "homepage": "https://clianpro.cn",
+    "homepage": "https://github.com/supzza/clianpro",
     "license": {
         "identifier": "MIT license",
         "url": "https://github.com/supzza/clianpro#MIT-1-ov-file"
     },
-    "url": "https://github.com/supzza/clianpro/releases/download/2.1.7/Pro_2.1.7_x64-setup.exe",
-    "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
-    "installer": {
-        "script": [
-            "7z x \"$dir\\Pro_2.1.7_x64-setup.exe\" -o\"$dir\\_extract\" | Out-Null",
-            "Get-ChildItem \"$dir\\_extract\" -Recurse | ForEach-Object { Move-Item $_.FullName -Destination $dir -Force }",
-            "Remove-Item \"$dir\\_extract\" -Recurse -Force"
-        ]
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/supzza/clianpro/releases/download/2.1.7/Pro_2.1.7_x64-setup.exe",
+            "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
+            "installer": {
+                "script": [
+                    "7z x \"$dir\\$fname\" -o\"$dir\\_extract\" | Out-Null",
+                    "Get-ChildItem \"$dir\\_extract\" -Recurse | ForEach-Object { Move-Item $_.FullName -Destination $dir -Force }",
+                    "Remove-Item \"$dir\\_extract\" -Recurse -Force"
+                ]
+            },
+            "bin": [
+                [
+                    "tauri-app.exe",
+                    "clianpro"
+                ]
+            ],
+            "shortcuts": [
+                [
+                    "tauri-app.exe",
+                    "Clian Pro"
+                ]
+            ]
+        }
     },
-    "bin": [
-        [
-            "tauri-app.exe",
-            "clianpro"
-        ]
-    ],
-    "shortcuts": [
-        [
-            "tauri-app.exe",
-            "Clian Pro"
-        ]
-    ],
     "checkver": {
         "url": "https://api.github.com/repos/supzza/clianpro/releases",
         "jp": "$[0].assets[*].browser_download_url",
         "regex": "/releases/download/([\\d.]+)/(?<file>Pro.*\\.exe)"
     },
     "autoupdate": {
-        "url": "https://github.com/supzza/clianpro/releases/download/$version/Pro_$version_x64-setup.exe"
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/supzza/clianpro/releases/download/$version/Pro_$version_x64-setup.exe",
+                "hash": {
+                    "url": "$url.sha256"
+                }
+            }
+        }
     }
 }
