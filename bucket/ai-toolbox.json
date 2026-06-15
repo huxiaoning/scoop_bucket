@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/coulsontl/ai-toolbox/releases/download/v0.9.8/AI.Toolbox_0.9.8_x64-setup.exe#/dl.7z",
-            "hash": "abc020ab8847237ff3ae68a1b0bea62a2e77b08ce893af1f89e5b3fb7132c4b0",
+            "hash": "d16cfc0801aa77051fc713456ba6a154360efb6f3cc207df82b9bfb9840f966a",
             "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\" -Force -Recurse"
         }
     },
