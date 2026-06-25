@@ -1,12 +1,12 @@
 {
-    "version": "6.3.0",
+    "version": "6.3.1",
     "homepage": "https://translator.dango.cloud/",
     "description": "团子翻译器是一款生肉翻译软件，通过OCR识别屏幕特定范围内的文字，然后将识别到的文字调取各种翻译源，并实时输出翻译结果",
     "license": "LGPL-2.1",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/PantsuDango/Dango-Translator/releases/download/Ver6.3.0/DangoTranslator-v6.3.0-all.zip",
-            "hash": "0650ea66b19df56577aa7baa818d410c9e61bf7680c2e818598fe54c7d5c28a3",
+            "url": "https://github.com/PantsuDango/Dango-Translator/releases/download/Ver6.3.1/DangoTranslator-v6.3.1-all.zip",
+            "hash": "1923f03b8e75e708fbfdd7b5a396dde5bd980294c31b974ce5311bbc774ae8c9",
             "shortcuts": [
                 [
                     "DangoTranslator.exe",
