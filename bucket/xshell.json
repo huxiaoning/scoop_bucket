@@ -1,5 +1,5 @@
 {
-    "version": "8.0.0099",
+    "version": "8.0.0102",
     "license": {
         "identifier": "Freeware",
         "url": "https://www.xshell.com/docs/ver8_free_eula.pdf"
@@ -7,8 +7,8 @@
     "description": "The Industry's Most Powerful SSH Client",
     "homepage": "https://www.xshell.com/free-for-home-school/",
     "depends": "isx",
-    "url": "https://cdn.netsarang.net/4d02ff07/Xshell-8.0.0099p.exe#/installer.exe",
-    "hash": "1dc8691db8169449701584aacd0a4407fc2eeb52f19c41fca6d7aa34125ecff9",
+    "url": "https://cdn.netsarang.net/4d02ff07/Xshell-8.0.0102p.exe#/installer.exe",
+    "hash": "4ca7e533d9e10f846fa4c5f922b531d20e3692f1af80c23639b9dcd557a5e15e",
     "checkver": {
         "script": [
             "$dl_url = 'https://cdn.netsarang.net/v8/Xshell-latest-p'",
