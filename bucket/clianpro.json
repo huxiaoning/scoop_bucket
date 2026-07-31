@@ -1,5 +1,5 @@
 {
-    "version": "2.1.7",
+    "version": "2.1.8",
     "description": "Clian Pro – 一个跨平台的命令面板工具",
     "homepage": "https://github.com/supzza/clianpro",
     "license": {
@@ -8,13 +8,12 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/supzza/clianpro/releases/download/2.1.7/Pro_2.1.7_x64-setup.exe",
-            "hash": "3bf2b3e65c1ad0bc7b743cfa4ee9c8e55fe21b43c1221595fb8e93a18ea4e15b",
+            "url": "https://github.com/supzza/clianpro/releases/download/2.1.8/Pro_v2.1.8.exe",
+            "hash": "eed07b5da60ece90f095cf01a9a3f40ae90e15830700ba2706166661697cf7f7",
             "installer": {
                 "script": [
-                    "7z x \"$dir\\$fname\" -o\"$dir\\_extract\" | Out-Null",
-                    "Get-ChildItem \"$dir\\_extract\" -Recurse | ForEach-Object { Move-Item $_.FullName -Destination $dir -Force }",
-                    "Remove-Item \"$dir\\_extract\" -Recurse -Force"
+                    "Expand-7zipArchive \"$dir\\$fname\" \"$dir\" -Removal",
+                    "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Force -Recurse -ErrorAction SilentlyContinue"
                 ]
             },
             "bin": [
@@ -39,10 +38,7 @@
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/supzza/clianpro/releases/download/$version/Pro_$version_x64-setup.exe",
-                "hash": {
-                    "url": "$url.sha256"
-                }
+                "url": "https://github.com/supzza/clianpro/releases/download/$version/Pro_v$version.exe"
             }
         }
     }
