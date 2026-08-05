@@ -4,7 +4,7 @@
   "homepage": "https://github.com/qiu7824/zsclip",
   "license": "GPL-3.0-or-later",
   "url": "https://github.com/qiu7824/zsclip/releases/download/0.9.9.5/zsclip-windows-x86_64-no-lan-portable.zip",
-  "hash": "4faee9c3e2d656a38130de0ac091e38dd2b180e7345d49431723841a3a2c7efe",
+  "hash": "60bc9bc61fdc34b9aea18d35f28548bf221356a66473f657fa8e1ee71f0bed98",
   "bin": [["剪贴板.exe", "zsclip-no-lan"]],
   "shortcuts": [["剪贴板.exe", "ZSClip no-LAN"]],
   "persist": "data",
