@@ -74,6 +74,18 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
    curl -L <url> -o temp_file && sha256sum temp_file
    ```
 
+   对于 GitHub Releases，先用 API 列出资产，只下载需要的文件：
+   ```bash
+   curl -s https://api.github.com/repos/<owner>/<repo>/releases/latest | jq '{tag_name, assets: [.assets[] | {name, browser_download_url, size}]}'
+   curl -sL -o app.zip "<browser_download_url>" && sha256sum app.zip
+   ```
+   - 下载后**解压检查内部结构**（zip 是否含顶层目录、exe 名、子目录），决定 `extract_dir`、`bin`、`shortcuts`：
+     ```bash
+     python -c "import zipfile; z=zipfile.ZipFile('app.zip'); print('\n'.join(z.namelist()))"
+     ```
+   - 哈希值**直接从命令输出复制**，不要手抄（手抄易出错，本次实战中 arm64 哈希就因手抄错一位而返工）。
+   - 验证哈希时用 `sha256sum` 输出与清单逐一比对，或运行 `.\bin\checkhashes.ps1`。
+
 3. **生成清单文件**：
    - 创建 JSON 结构
    - 填充必需字段
@@ -83,8 +95,10 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
 
 4. **添加自动更新配置**（如果可能）：
    - 对于 GitHub releases: `"checkver": "github"`
-   - 对于其他来源: 配置 `checkver` 的 `url` 和 `regex`
+   - 其他来源: 配置 `checkver` 的 `url` 和 `regex`
    - 配置 `autoupdate` 的 URL 模板
+   - **注意版本号前缀**：若上游 tag 带 `V` 前缀（如 `V1.86`），清单中 `version` 应去掉 `V`（写 `1.86`），`autoupdate` 模板中用 `V$version` 补回。`checkver` 的 `github` 简写会自动去除 tag 的 `v`/`V` 前缀。
+   - 多架构时，`autoupdate` 中每个架构都要有对应的 URL 模板，与 `architecture` 保持一一对应。
 
 5. **验证清单**：
    运行验证脚本：
@@ -131,8 +145,28 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
    - 缩进是否为 4 空格
    - 编码是否为 UTF-8
 
-3. **修复问题**：
-   根据验证结果修复发现的问题
+3. **文件格式检查**（Scoop 官方 bucket 测试会检查，漏掉会红）：
+   - **必须 CRLF 换行**（`\r\n`），不能是 LF
+   - **必须以换行符结尾**（文件末尾要有空行）
+   - 无 UTF-8 BOM（`EF BB BF` 开头）
+   - 检查方法：
+     ```bash
+     # 检查末尾是否有换行（Python 可读）
+     python -c "
+     data = open('bucket/<app>.json','rb').read()
+     print('last byte:', data[-1], '== 0x0A:', data[-1] == 0x0A)
+     print('first 3 bytes:', data[:3])
+     print('CRLF count:', data.count(b'\r\n'))
+     "
+     # 转换为 CRLF 并补末尾换行
+     python -c "
+     data = open('bucket/<app>.json','rb').read()
+     data = data.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')
+     if not data.endswith(b'\r\n'):
+         data += b'\r\n'
+     open('bucket/<app>.json','wb').write(data)
+     "
+     ```
 
 ### 4. 从其他 bucket 迁移清单
 
@@ -290,6 +324,22 @@ Scoop 清单是 JSON 格式文件，包含以下关键字段：
    scoop install local-test/<app-name>
    scoop uninstall <app-name>
    ```
+   或跳过 bucket 直接安装清单文件：
+   ```bash
+   scoop install .\bucket\<app-name>.json
+   scoop uninstall <app-name>
+   ```
+   安装输出中应确认 `Checking hash ... ok`（哈希有效）和 `was installed successfully`；卸载输出应确认快捷方式被移除、`current` 链接被解除。
+
+## 实战经验（从 TrafficMonitor 清单创建中沉淀）
+
+创建 GitHub Releases 应用的清单时，按以下顺序操作最省事（本次实战验证过）：
+
+1. `curl -s https://api.github.com/repos/<owner>/<repo>/releases/latest | jq` 拿到 `tag_name` 和全部资产（含 URL、大小），一次看清有哪些架构和版本
+2. 只下载清单会用到的 zip，`sha256sum` 计算哈希；**解压检查目录结构**确定 `extract_dir` 和 `shortcuts`
+3. 从 GitHub API 或 LICENSE 文件确认许可证（本项目是 "Anti 996 License"，SPDX 无标准 ID，直接写 `"Anti996"`）
+4. 写完清单后立即验证三件事：schema 校验通过、CRLF + 末尾换行、哈希与 `sha256sum` 输出逐字一致
+5. 直接 `scoop install .\bucket\<app>.json` 实测安装，再 `scoop uninstall` 实测卸载
 
 ## 工具脚本
 

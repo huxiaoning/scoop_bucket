@@ -1,0 +1,43 @@
+{
+    "version": "1.86",
+    "description": "A desktop floating window and taskbar monitor for displaying current network speed, CPU and memory utilization, supporting skin customization.",
+    "homepage": "https://github.com/zhongyang219/TrafficMonitor",
+    "license": "Anti996",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V1.86/TrafficMonitor_V1.86_x64.zip",
+            "hash": "948ddc12cc582e8cf0b7b32e0064544f6f711265a7671c2e47343a6a0ff4908e"
+        },
+        "32bit": {
+            "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V1.86/TrafficMonitor_V1.86_x86.zip",
+            "hash": "2dddbd07f54607035f7b54d15ef2597844335ee343afe5f9ddb004e7f0705f04"
+        },
+        "arm64": {
+            "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V1.86/TrafficMonitor_V1.86_arm64ec.zip",
+            "hash": "20245bd1472d60283cbd081dbfab519cf46d3c71ac265c747498917196381c92"
+        }
+    },
+    "extract_dir": "TrafficMonitor",
+    "shortcuts": [
+        [
+            "TrafficMonitor.exe",
+            "Traffic Monitor"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/zhongyang219/TrafficMonitor"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V$version/TrafficMonitor_V$version_x64.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V$version/TrafficMonitor_V$version_x86.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/zhongyang219/TrafficMonitor/releases/download/V$version/TrafficMonitor_V$version_arm64ec.zip"
+            }
+        }
+    }
+}
