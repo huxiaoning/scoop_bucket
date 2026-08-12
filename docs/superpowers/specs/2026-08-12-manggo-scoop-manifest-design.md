@@ -19,26 +19,24 @@
 
 - `version`：`0.7.7`。
 - `description`、`homepage`、`license`：描述 Manggo 作为桌面翻译与截图 OCR 助手，主页使用官方 HTTPS 地址，许可证标为 `Proprietary`。
-- `url`：GitCode 公开发布 URL，并通过 `#/dl.7z` 指示 Scoop 解包安装器。
-- `hash`：从该发布物实际下载后计算的 SHA-256 小写值。
+- `architecture.64bit`：唯一的可安装架构；包含 GitCode 公开发布 URL、`#/dl.7z` 解包标记，以及从发布物实际下载后计算的 SHA-256 小写值。
 - `shortcuts`：为 `bin\Manggo.exe` 创建开始菜单中的 `Manggo` 快捷方式。
 
 ## 安装、升级与卸载行为
 
 1. Scoop 解包安装器后，删除 `$PLUGINSDIR` 与 `uninstall.exe`，避免保留无用的安装器残留。
 2. `persist` 使用相对名称 `Manggo`。
-3. `post_install` 处理 `%LOCALAPPDATA%\Manggo\Manggo`：
-   - 如果持久化目录已经存在，移除当前运行时目录；
-   - 否则若运行时目录存在，将其迁移至持久化目录；
-   - 创建从运行时目录到持久化目录的目录联接。
-4. `post_uninstall` 仅删除运行时目录联接，不删除 Scoop persist 中的真实数据。
+3. `installer` 在 Scoop 执行内置 `persist` 之前处理 `%LOCALAPPDATA%\Manggo\Manggo`：若 `$persist_dir\Manggo` 尚不存在且运行时目录存在，则先创建 `$persist_dir` 并将运行时目录迁移到该目标。
+4. 内置 `persist` 随后建立应用目录与 `$persist_dir\Manggo` 的链接，确保 Scoop 管理此持久化目录。
+5. `post_install` 删除任何残留运行时目录，并创建从 `%LOCALAPPDATA%\Manggo\Manggo` 到 `$persist_dir\Manggo` 的目录联接。
+6. `post_uninstall` 仅删除运行时目录联接，不删除 Scoop persist 中的真实数据。
 
 此策略使已有非 Scoop 安装的数据在首次 Scoop 安装时迁移，后续版本切换复用相同的数据位置。
 
 ## 自动更新
 
 - `checkver` 查询 `https://api.gitcode.com/api/v5/repos/Pylogmon/Manggo/releases/latest`，用 JSONPath `$.tag_name` 读取版本。
-- `autoupdate` 使用 GitCode 发布物命名模板：`Manggo-$version-Windows-AMD64.exe#/dl.7z`。
+- `autoupdate` 在 `architecture.64bit` 内使用 GitCode 发布物命名模板：`Manggo-$version-Windows-AMD64.exe#/dl.7z`。
 - 上游目前无 32 位或 ARM64 Windows 发布物，因此不声明虚构的架构支持。
 
 ## 验证

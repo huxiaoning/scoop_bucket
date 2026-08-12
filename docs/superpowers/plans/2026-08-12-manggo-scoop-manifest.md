@@ -41,23 +41,33 @@
       "description": "A desktop translation and screenshot OCR assistant for academic reading, web browsing, and cross-language communication.",
       "homepage": "https://manggo.pylogmon.cn/",
       "license": "Proprietary",
-      "url": "https://gitcode.com/Pylogmon/Manggo/releases/download/0.7.7/Manggo-0.7.7-Windows-AMD64.exe#/dl.7z",
-      "hash": "d9ee20953749778cd3c20c17bfaeb8ce49687e3cceeaf2d3e065e96a27466868",
+      "architecture": {
+          "64bit": {
+              "url": "https://gitcode.com/Pylogmon/Manggo/releases/download/0.7.7/Manggo-0.7.7-Windows-AMD64.exe#/dl.7z",
+              "hash": "d9ee20953749778cd3c20c17bfaeb8ce49687e3cceeaf2d3e065e96a27466868"
+          }
+      },
       "shortcuts": [
           [
               "bin\\Manggo.exe",
               "Manggo"
           ]
       ],
+      "installer": {
+          "script": [
+              "$runtimeCache = \"$env:LocalAppData\\Manggo\\Manggo\"",
+              "$runtimeCachePersist = \"$persist_dir\\Manggo\"",
+              "if (!(Test-Path $runtimeCachePersist) -and (Test-Path $runtimeCache)) {",
+              "    New-Item -ItemType Directory -Path $persist_dir -Force | Out-Null",
+              "    Move-Item -Path $runtimeCache -Destination $runtimeCachePersist -Force",
+              "}"
+          ]
+      },
       "post_install": [
           "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Force -Recurse -ErrorAction SilentlyContinue",
           "$runtimeCache = \"$env:LocalAppData\\Manggo\\Manggo\"",
           "$runtimeCachePersist = \"$persist_dir\\Manggo\"",
-          "if (Test-Path $runtimeCachePersist) {",
-          "    Remove-Item -Path $runtimeCache -Force -Recurse -ErrorAction SilentlyContinue",
-          "} elseif (Test-Path $runtimeCache) {",
-          "    Move-Item -Path $runtimeCache -Destination $runtimeCachePersist -Force",
-          "}",
+          "Remove-Item -Path $runtimeCache -Force -Recurse -ErrorAction SilentlyContinue",
           "New-DirectoryJunction $runtimeCache $runtimeCachePersist | Out-Null"
       ],
       "post_uninstall": [
@@ -70,12 +80,16 @@
           "jsonpath": "$.tag_name"
       },
       "autoupdate": {
-          "url": "https://gitcode.com/Pylogmon/Manggo/releases/download/$version/Manggo-$version-Windows-AMD64.exe#/dl.7z"
+          "architecture": {
+              "64bit": {
+                  "url": "https://gitcode.com/Pylogmon/Manggo/releases/download/$version/Manggo-$version-Windows-AMD64.exe#/dl.7z"
+              }
+          }
       }
   }
   ```
 
-  The `post_install` branch order is intentional: existing persisted data wins on upgrades; otherwise an existing non-Scoop runtime cache is moved into persistence before the directory junction is created. `post_uninstall` removes only the runtime directory junction, so Scoop retains `persist\Manggo`.
+  `installer` runs before Scoop’s built-in `persist` phase: it migrates an existing non-Scoop runtime directory only when `$persist_dir\Manggo` does not yet exist. Scoop then creates and manages the persisted target. `post_install` removes any remaining runtime directory and creates its directory junction only after the target is available. This ordering avoids deleting existing user data during first Scoop installation. `post_uninstall` removes only the runtime directory junction, so Scoop retains `persist\Manggo`.
 
 - [ ] **Step 2: Validate JSON syntax and required manifest fields**
 
@@ -85,7 +99,7 @@
   Get-Content .\bucket\manggo.json -Raw | ConvertFrom-Json | ConvertTo-Json -Depth 10
   ```
 
-  Expected: exit code `0`; output includes version `0.7.7`, `url`, `hash`, `persist`, `checkver`, and `autoupdate`.
+  Expected: exit code `0`; output includes version `0.7.7`, `architecture.64bit.url`, `architecture.64bit.hash`, `persist`, `checkver`, and `autoupdate`.
 
 - [ ] **Step 3: Verify repository file encoding and line-ending constraints**
 
@@ -129,9 +143,10 @@
 
   ```powershell
   $manifest = Get-Content .\bucket\manggo.json -Raw | ConvertFrom-Json
-  Invoke-WebRequest -Uri ($manifest.url -replace '#/dl\.7z$', '') -OutFile .\.tmp\manggo-0.7.7-Windows-AMD64.exe
+  $release = $manifest.architecture.'64bit'
+  Invoke-WebRequest -Uri ($release.url -replace '#/dl\.7z$', '') -OutFile .\.tmp\manggo-0.7.7-Windows-AMD64.exe
   $actual = (Get-FileHash .\.tmp\manggo-0.7.7-Windows-AMD64.exe -Algorithm SHA256).Hash.ToLower()
-  if ($actual -ne $manifest.hash) { throw "Manifest hash $($manifest.hash) does not match downloaded hash $actual" }
+  if ($actual -ne $release.hash) { throw "Manifest hash $($release.hash) does not match downloaded hash $actual" }
   $actual
   ```
 
