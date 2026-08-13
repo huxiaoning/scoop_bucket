@@ -1,0 +1,44 @@
+{
+    "version": "3.24.0",
+    "description": "Quark Cloud Drive is a cloud storage and file management client.",
+    "homepage": "https://pan.quark.cn/",
+    "license": "Proprietary",
+    "architecture": {
+        "64bit": {
+            "url": "https://pdds.quark.cn/download/stfile/kkqppqploklokmsmd/QuarkCloudDrive_v3.24.0_release_(Build2831493-20260305222830).exe",
+            "hash": "a4c6f487f601d6fc89eb6678d70747713be9f40641512c6b3c2301d698b298fa"
+        }
+    },
+    "innosetup": true,
+    "installer": {
+        "script": [
+            "$appDir = Join-Path $dir \"app-$version\"",
+            "Get-ChildItem -LiteralPath $appDir -Force | ForEach-Object { Move-Item -LiteralPath $_.FullName -Destination $dir -Force }",
+            "Remove-Item -LiteralPath $appDir -Force"
+        ]
+    },
+    "bin": "QuarkCloudDrive.exe",
+    "shortcuts": [
+        [
+            "QuarkCloudDrive.exe",
+            "夸克网盘"
+        ]
+    ],
+    "checkver": {
+        "script": [
+            "$release = (Invoke-RestMethod -Uri 'https://pan.quark.cn/api/client_version').data.packages | Where-Object { $_.appch -eq 'pckk@clouddrive_share_ch' -and $_.platform -eq 'win32' -and $_.arch -eq 'x64' } | Select-Object -First 1",
+            "Write-Output \"$($release.version)//-//$($release.url)\""
+        ],
+        "regex": "(?<version>[\\d.]+)//-//(?<url>https://.+\\.exe)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "$matchUrl"
+            }
+        },
+        "hash": {
+            "mode": "download"
+        }
+    }
+}
