@@ -8,7 +8,7 @@
     "hash": "87f1e267506bba05690a073e49ba8de8b24b673e7b1352e6c0673a6606db6db0",
     "installer": {
         "script": [
-            "python -m venv \"$dir\\venv\"",
+            "& (Join-Path (appdir python) 'current\\python.exe') -m venv (Join-Path $dir 'venv')",
             "& \"$dir\\venv\\Scripts\\python.exe\" -m pip install --disable-pip-version-check --no-cache-dir \"$dir\\$fname[tui]\""
         ]
     },
