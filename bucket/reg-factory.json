@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/tiantianGPU/reg-factory/releases/download/2.0.2/reg-factory-windows-x64-2.0.2.zip",
-            "hash": "a5f58b4063c56c7b6ada50f13d3aa98ccd81486adb423b2d0a1effdfb0fb575b"
+            "hash": "308a2701169f2af682b76a052ce2d73823337a8f647488d80c9d7da30903ae1c"
         }
     },
     "extract_dir": "reg-factory-windows-x64-2.0.2",
