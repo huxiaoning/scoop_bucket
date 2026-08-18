@@ -43,7 +43,7 @@
             "    $newContent | Set-Content $file",
             "}",
             "",
-            "$JBProducts = @(\"idea-ultimate\", \"clion\", \"phpstorm\", \"goland\", \"pycharm\", \"pycharm-professional\", \"webstorm\", \"webide\", \"rider\", \"datagrip\", \"rubymine\", \"appcode\", \"dataspell\", \"gateway\", \"jetbrains_client\", \"jetbrainsclient\" , \"devecostudio\")",
+            "$JBProducts = @(\"idea\", \"idea-ultimate\", \"clion\", \"phpstorm\", \"goland\", \"pycharm\", \"pycharm-professional\", \"webstorm\", \"webide\", \"rider\", \"datagrip\", \"rubymine\", \"appcode\", \"dataspell\", \"gateway\", \"jetbrains_client\", \"jetbrainsclient\" , \"devecostudio\")",
             "foreach ($prd in $JBProducts) {",
             "    Get-ChildItem \"$scoopdir\\apps\\$prd*\\current\\IDE\\bin\\*.exe.vmoptions\" | ForEach-Object {",
             "        Update-VmOptions -file $_.FullName",
