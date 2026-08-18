@@ -1,0 +1,81 @@
+{
+    "version": "251031",
+    "description": "Auto apply to Scoop installed JB apps",
+    "homepage": "https://3.jetbra.in",
+    "license": "Apache-2.0",
+    "url": "https://3.jetbra.in/files/jetbra-5a50fc03d68a014f893b7fc3aa465380d59f9095.zip",
+    "hash": "ddf37f82de3bdf11eb6e96f3828440c141ebb6589a7cc19d5e4587a171f7c2bc",
+    "extract_dir": "jetbra",
+    "notes": [
+        "* Get keys from \"https://3.jetbra.in\".",
+        "* Previous installed JB apps from Scoop is patched automatically.",
+        "* Newly installed JB apps from Scoop would not be patched automatically.",
+        "  - Reinstall this app: \"scoop update $app -f\"",
+        "  - Add `vmoptions` manually according to \"$dir\\readme.txt\"",
+        "* The JB apps not installed from Scoop would not be patched automatically.",
+        "  - Install: \"$dir\\scripts\\install-current-user.vbs\"",
+        "  - Uninstall: \"$dir\\scripts\\uninstall-current-user.vbs\""
+    ],
+    "shortcuts": [
+        [
+            "readme.txt",
+            "JetBrains\\Jetbra Keys"
+        ]
+    ],
+    "installer": {
+        "script": [
+            "Write-Host ''",
+            "Get-Content \"$dir\\readme.txt\"",
+            "function Update-VmOptions([string]$file) {",
+            "    Write-Host \"Patching $file...\"",
+            "    $jarFile = \"$dir\\ja-netfilter.jar\"",
+            "    $newContent = @()",
+            "    $regex = '^-javaagent:.*[\\/\\\\]ja-netfilter\\.jar.*'",
+            "    Copy-Item -Path $file -Destination \"$file.bak\"",
+            "    Get-Content $file | ForEach-Object {",
+            "        if ($_ -notmatch $regex) {",
+            "            $newContent += $_",
+            "        }",
+            "    }",
+            "    $newContent += \"--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED\"",
+            "    $newContent += \"--add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED\"",
+            "    $newContent += \"-javaagent:$jarFile=jetbrains\"",
+            "    $newContent | Set-Content $file",
+            "}",
+            "",
+            "$JBProducts = @(\"idea-ultimate\", \"clion\", \"phpstorm\", \"goland\", \"pycharm\", \"pycharm-professional\", \"webstorm\", \"webide\", \"rider\", \"datagrip\", \"rubymine\", \"appcode\", \"dataspell\", \"gateway\", \"jetbrains_client\", \"jetbrainsclient\" , \"devecostudio\")",
+            "foreach ($prd in $JBProducts) {",
+            "    Get-ChildItem \"$scoopdir\\apps\\$prd*\\current\\IDE\\bin\\*.exe.vmoptions\" | ForEach-Object {",
+            "        Update-VmOptions -file $_.FullName",
+            "    }",
+            "}"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            "function Restore-VmOptions([string]$file) {",
+            "    Write-Host \"Restoring $file...\"",
+            "    if (Test-Path \"$file.bak\") {",
+            "        Copy-Item -Path \"$file.bak\" -Destination $file -Force",
+            "    } else {",
+            "        $newContent = @()",
+            "        $regex = '^-javaagent:.*[\\/\\\\]ja-netfilter\\.jar.*'",
+            "        Get-Content $file | ForEach-Object {",
+            "            if ($_ -notmatch $regex) {",
+            "                $newContent += $_",
+            "            }",
+            "        }",
+            "        $newContent | Set-Content $file",
+            "    }",
+            "",
+            "}",
+            "",
+            "$JBProducts = @(\"idea-ultimate\", \"clion\", \"phpstorm\", \"goland\", \"pycharm\", \"pycharm-professional\", \"webstorm\", \"webide\", \"rider\", \"datagrip\", \"rubymine\", \"appcode\", \"dataspell\", \"gateway\", \"jetbrains_client\", \"jetbrainsclient\" , \"devecostudio\")",
+            "foreach ($prd in $JBProducts) {",
+            "    Get-ChildItem \"$scoopdir\\apps\\$prd*\\current\\IDE\\bin\\*.exe.vmoptions\" | ForEach-Object {",
+            "        Restore-VmOptions -file $_.FullName",
+            "    }",
+            "}"
+        ]
+    }
+}
