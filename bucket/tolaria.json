@@ -1,0 +1,77 @@
+{
+    "version": "2026-08-19",
+    "description": "A second brain for the AI era — Markdown-based knowledge base with native relationships, Git, local agents, and direct AI model providers. Free forever.",
+    "homepage": "https://tolaria.md/",
+    "license": "AGPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/refactoringhq/tolaria/releases/download/v2026-08-19/Tolaria_2026.8.19_x64-setup.exe#/dl.7z",
+            "hash": "ec7752e8ecff9dccbda7db6a3295ca78f70cc8a65d9186d92d22b2f52b5c9762"
+        }
+    },
+    "post_install": [
+        "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Force -Recurse -ErrorAction SilentlyContinue",
+        "$configDir = \"$env:APPDATA\\com.tolaria.app\"",
+        "$persistConfig = \"$persist_dir\\com.tolaria.app\"",
+        "$linkOk = $false",
+        "if (Test-Path $configDir) {",
+        "    $item = Get-Item $configDir -Force",
+        "    if ($item.LinkType -eq 'Junction') {",
+        "        $target = (Resolve-Path $item.Target -ErrorAction SilentlyContinue).Path",
+        "        if (Test-Path $persistConfig) {",
+        "            $linkOk = $target -eq (Resolve-Path $persistConfig).Path",
+        "        }",
+        "        if (-not $linkOk) {",
+        "            Remove-Item $configDir -Force -Recurse",
+        "        }",
+        "    } elseif (-not (Get-ChildItem $persistConfig -Force -ErrorAction SilentlyContinue)) {",
+        "        Remove-Item $persistConfig -Force -Recurse -ErrorAction SilentlyContinue",
+        "        Move-Item $configDir $persistConfig",
+        "    } else {",
+        "        Move-Item $configDir \"$configDir.old\" -Force -ErrorAction SilentlyContinue",
+        "    }",
+        "}",
+        "if (-not $linkOk) {",
+        "    New-Item -ItemType Directory -Path $persistConfig -Force | Out-Null",
+        "    if (-not (Test-Path $configDir)) {",
+        "        New-DirectoryJunction $configDir $persistConfig | Out-Null",
+        "    }",
+        "}"
+    ],
+    "shortcuts": [
+        [
+            "tolaria.exe",
+            "Tolaria"
+        ]
+    ],
+    "post_uninstall": [
+        "Remove-Item \"$env:APPDATA\\com.tolaria.app\" -Force -Recurse -ErrorAction SilentlyContinue",
+        "if ($purge) {",
+        "    $Directories = [string[]](",
+        "        [System.IO.Path]::Combine($env:APPDATA, 'tolaria'),",
+        "        [System.IO.Path]::Combine($env:LOCALAPPDATA, 'com.tolaria.app')",
+        "    )",
+        "    $Directories.ForEach{",
+        "        if ([System.IO.Directory]::Exists($_)) {",
+        "            $null = [System.IO.Directory]::Delete($_, $true)",
+        "        }",
+        "    }",
+        "}"
+    ],
+    "persist": "com.tolaria.app",
+    "checkver": {
+        "url": "https://api.github.com/repos/refactoringhq/tolaria/releases/latest",
+        "regex": "(?s)\"tag_name\":\\s*\"v(?<version>[^\"]+)\".*?\"name\":\\s*\"Tolaria_(?<dot>[\\d.]+)_x64-setup\\.exe\""
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/refactoringhq/tolaria/releases/download/v$version/Tolaria_$matchDot_x64-setup.exe#/dl.7z"
+            }
+        },
+        "hash": {
+            "url": "https://api.github.com/repos/refactoringhq/tolaria/releases/latest",
+            "jsonpath": "$.assets[?(@.name == 'Tolaria_$matchDot_x64-setup.exe')].digest"
+        }
+    }
+}
