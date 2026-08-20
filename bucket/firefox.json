@@ -1,0 +1,142 @@
+{
+    "version": "154.0",
+    "description": "Popular open source web browser.",
+    "homepage": "https://www.firefox.com/",
+    "license": "MPL-2.0",
+    "notes": [
+        "Profile 'Scoop' is registered in %APPDATA%\\Mozilla\\Firefox\\profiles.ini and its data lives under persist\\firefox\\profile, so upgrades and uninstalls never lose it.",
+        "All launch methods (taskbar pin, shortcut, direct firefox.exe) use this profile automatically - no extra arguments needed.",
+        "Verify: open about:profiles and check 'Scoop' is the default profile.",
+        "If another Firefox installation (e.g. the official installer) owns the default profile, set 'Scoop' as default manually in about:profiles.",
+        "Close Firefox before running scoop update / scoop install -f."
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://archive.mozilla.org/pub/firefox/releases/154.0/win64/en-US/Firefox%20Setup%20154.0.exe#/dl.7z",
+            "hash": "sha512:514dfa9f8582dc1b693f22c36a922a4fbcb22f3419c8398269253bda655a2f8451e18f156a8ce75c64bea76cae582805b2c3266adc4febf47e15722d1bc35398"
+        },
+        "32bit": {
+            "url": "https://archive.mozilla.org/pub/firefox/releases/154.0/win32/en-US/Firefox%20Setup%20154.0.exe#/dl.7z",
+            "hash": "sha512:6f1f90c63e42f567a0d80d005fe1a68909ae9c2499a0c1fae6dcf829ebaef073e97a09b4cfc6b8eef3958c8e6794256ce8b0423752ce7abae9a4808f30d6cd03"
+        },
+        "arm64": {
+            "url": "https://archive.mozilla.org/pub/firefox/releases/154.0/win64-aarch64/en-US/Firefox%20Setup%20154.0.exe#/dl.7z",
+            "hash": "sha512:e8737367689a804fd6f97e28d24e4a07774f565a0667e822709679ada26a5c6491670bbbbd62fd23d2048ca04bd914798e0e9e38eff59e7f0ecda237d4ec"
+        }
+    },
+    "extract_dir": "core",
+    "post_install": [
+        "$ErrorActionPreference = 'Stop'",
+        "$utf8 = New-Object System.Text.UTF8Encoding($false)",
+        "$iniDir = \"$env:APPDATA\\Mozilla\\Firefox\"",
+        "$ini = Join-Path $iniDir 'profiles.ini'",
+        "$profilePath = \"$persist_dir\\profile\"",
+        "if (-not (Test-Path $ini)) {",
+        "    New-Item -ItemType Directory -Force $iniDir | Out-Null",
+        "    $newContent = \"[Profile0]`r`nName=Scoop`r`nIsRelative=0`r`nPath=$profilePath`r`nDefault=1`r`n`r`n[General]`r`nStartWithLastProfile=1`r`nVersion=2`r`n\"",
+        "    [System.IO.File]::WriteAllText($ini, $newContent, $utf8)",
+        "    info '[Portable Mode]: Registered Scoop profile -> persist\\firefox\\profile'",
+        "} else {",
+        "    $content = [System.IO.File]::ReadAllText($ini, $utf8)",
+        "    $escaped = [regex]::Escape($profilePath)",
+        "    if ($content -match \"(?im)^\\s*Path\\s*=\\s*$escaped\\s*$\") {",
+        "        info '[Portable Mode]: Scoop profile already registered'",
+        "    } else {",
+        "        $sections = [regex]::Matches($content, '(?ms)^\\[(Profile\\d+)\\](.*?)(?=^\\[|\\z)')",
+        "        $scoopSection = $null",
+        "        foreach ($s in $sections) {",
+        "            if ($s.Groups[2].Value -match '(?m)^\\s*Name\\s*=\\s*Scoop\\s*$') { $scoopSection = $s; break }",
+        "        }",
+        "        if ($scoopSection) {",
+        "            $oldPathLine = [regex]::Match($scoopSection.Groups[2].Value, '(?m)^\\s*Path\\s*=\\s*(.+?)\\s*$')",
+        "            $oldRelLine = [regex]::Match($scoopSection.Groups[2].Value, '(?m)^\\s*IsRelative\\s*=\\s*(\\d)\\s*$')",
+        "            $oldDir = $null",
+        "            if ($oldPathLine.Success) {",
+        "                $oldPath = $oldPathLine.Groups[1].Value",
+        "                if ($oldRelLine.Success -and $oldRelLine.Groups[1].Value -eq '1') {",
+        "                    $oldDir = Join-Path $iniDir $oldPath",
+        "                } else {",
+        "                    $oldDir = $oldPath",
+        "                }",
+        "            }",
+        "            if ($oldDir -and (Test-Path $oldDir) -and -not (Test-Path \"$profilePath\\prefs.js\")) {",
+        "                New-Item -ItemType Directory -Force $profilePath | Out-Null",
+        "                Copy-Item \"$oldDir\\*\" $profilePath -Recurse -Force",
+        "                info \"[Portable Mode]: Migrated previous profile data from $oldDir\"",
+        "            }",
+        "            $newSectionBody = [regex]::Replace($scoopSection.Groups[2].Value, '(?m)^\\s*Path\\s*=.*$', \"Path=$profilePath\")",
+        "            $newSectionBody = [regex]::Replace($newSectionBody, '(?m)^\\s*IsRelative\\s*=.*$', 'IsRelative=0')",
+        "            if ($newSectionBody -notmatch '(?m)^\\s*Default\\s*=') {",
+        "                if ($content -notmatch '(?m)^\\s*Default\\s*=\\s*1\\s*$') { $newSectionBody += \"Default=1`r`n\" }",
+        "            }",
+        "            $startIdx = $scoopSection.Groups[2].Index",
+        "            $endIdx = $startIdx + $scoopSection.Groups[2].Length",
+        "            $content = $content.Substring(0, $startIdx) + $newSectionBody + $content.Substring($endIdx)",
+        "            [System.IO.File]::WriteAllText($ini, $content, $utf8)",
+        "            info '[Portable Mode]: Updated Scoop profile path -> persist\\firefox\\profile'",
+        "        } else {",
+        "            $maxN = -1",
+        "            foreach ($s in $sections) {",
+        "                $n = [int]($s.Groups[1].Value -replace '\\D', '')",
+        "                if ($n -gt $maxN) { $maxN = $n }",
+        "            }",
+        "            $newSection = \"`r`n[Profile$($maxN + 1)]`r`nName=Scoop`r`nIsRelative=0`r`nPath=$profilePath`r`n\"",
+        "            if ($content -notmatch '(?m)^\\s*Default\\s*=\\s*1\\s*$') { $newSection += \"Default=1`r`n\" }",
+        "            $content = $content.TrimEnd() + \"`r`n\" + $newSection",
+        "            [System.IO.File]::WriteAllText($ini, $content, $utf8)",
+        "            info '[Portable Mode]: Registered Scoop profile in profiles.ini'",
+        "        }",
+        "    }",
+        "}",
+        "$Addition = \"$persist_dir\\addition\"",
+        "if (Test-Path $Addition) {",
+        "  info 'Copying additional items...'",
+        "  Copy-Item -Path $Addition\\* -Destination $dir -Force -Recurse -ErrorAction SilentlyContinue",
+        "}"
+    ],
+    "bin": "firefox.exe",
+    "shortcuts": [
+        [
+            "firefox.exe",
+            "Firefox"
+        ],
+        [
+            "firefox.exe",
+            "Firefox Profile Manager",
+            "-P"
+        ]
+    ],
+    "persist": [
+        "distribution",
+        "profile"
+    ],
+    "checkver": {
+        "url": "https://product-details.mozilla.org/1.0/firefox_versions.json",
+        "jsonpath": "$.LATEST_FIREFOX_VERSION"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://archive.mozilla.org/pub/firefox/releases/$version/win64/en-US/Firefox%20Setup%20$version.exe#/dl.7z",
+                "hash": {
+                    "url": "https://archive.mozilla.org/pub/firefox/releases/$version/SHA512SUMS",
+                    "regex": "$sha512\\s+win64/en-US/$basename"
+                }
+            },
+            "32bit": {
+                "url": "https://archive.mozilla.org/pub/firefox/releases/$version/win32/en-US/Firefox%20Setup%20$version.exe#/dl.7z",
+                "hash": {
+                    "url": "https://archive.mozilla.org/pub/firefox/releases/$version/SHA512SUMS",
+                    "regex": "$sha512\\s+win32/en-US/$basename"
+                }
+            },
+            "arm64": {
+                "url": "https://archive.mozilla.org/pub/firefox/releases/$version/win64-aarch64/en-US/Firefox%20Setup%20$version.exe#/dl.7z",
+                "hash": {
+                    "url": "https://archive.mozilla.org/pub/firefox/releases/$version/SHA512SUMS",
+                    "regex": "$sha512\\s+win64-aarch64/en-US/$basename"
+                }
+            }
+        }
+    }
+}
