@@ -1,7 +1,7 @@
 {
     "version": "1.3.18",
     "description": "开源跨平台语音输入，把你的话变成可用的 AI Prompt",
-    "homepage": "https://github.com/Open-Less/openless",
+    "homepage": "https://openless.top/",
     "license": "MIT",
     "architecture": {
         "64bit": {
