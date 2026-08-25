@@ -1,0 +1,65 @@
+{
+    "version": "1.3.18",
+    "description": "开源跨平台语音输入，把你的话变成可用的 AI Prompt",
+    "homepage": "https://openless.top/",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Open-Less/openless/releases/download/v1.3.18-tauri/OpenLess_1.3.18_x64-setup.exe#/dl.7z",
+            "hash": "a163e3c5bf70902abfbef60891d5b8bb81c46d5cb58ec8e48f29058298af4609"
+        }
+    },
+    "pre_install": [
+        "if (!(Test-Path \"$persist_dir\\.openless\")) {",
+        "    $oldConfig = \"$env:USERPROFILE\\.openless\"",
+        "    if (Test-Path $oldConfig) {",
+        "        info 'Migrating existing config from %USERPROFILE%\\.openless'",
+        "        Copy-Item -Path $oldConfig -Destination \"$persist_dir\\.openless\" -Recurse -Force",
+        "    } else {",
+        "        New-Item -ItemType Directory -Path \"$persist_dir\\.openless\" -Force | Out-Null",
+        "    }",
+        "}"
+    ],
+    "post_install": [
+        "$configPath = \"$persist_dir\\.openless\"",
+        "$symlinkPath = \"$env:USERPROFILE\\.openless\"",
+        "if (Test-Path $symlinkPath) {",
+        "    $item = Get-Item $symlinkPath -Force",
+        "    if ($item.LinkType -ne 'Junction' -and $item.LinkType -ne 'SymbolicLink') {",
+        "        warn 'Existing .openless is not a symlink, skipping'",
+        "    }",
+        "} else {",
+        "    New-Item -ItemType Junction -Path $symlinkPath -Target $configPath -Force | Out-Null",
+        "    info 'Created junction: %USERPROFILE%\\.openless -> persist\\.openless'",
+        "}"
+    ],
+    "pre_uninstall": [
+        "$symlinkPath = \"$env:USERPROFILE\\.openless\"",
+        "if (Test-Path $symlinkPath) {",
+        "    $item = Get-Item $symlinkPath -Force",
+        "    if ($item.LinkType -eq 'Junction' -or $item.LinkType -eq 'SymbolicLink') {",
+        "        Remove-Item $symlinkPath -Force",
+        "        info 'Removed junction: %USERPROFILE%\\.openless'",
+        "    }",
+        "}"
+    ],
+    "bin": "openless.exe",
+    "shortcuts": [
+        [
+            "openless.exe",
+            "OpenLess"
+        ]
+    ],
+    "persist": ".openless",
+    "checkver": {
+        "github": "https://github.com/Open-Less/openless",
+        "regex": "v([\\d.]+)-tauri"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Open-Less/openless/releases/download/v$version-tauri/OpenLess_$version_x64-setup.exe#/dl.7z"
+            }
+        }
+    }
+}
