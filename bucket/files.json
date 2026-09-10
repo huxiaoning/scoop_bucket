@@ -1,0 +1,124 @@
+{
+    "version": "4.2.9.0",
+    "description": "一款现代化的 Windows 文件管理器，支持多标签页、双窗格、标签与压缩包浏览",
+    "homepage": "https://files.community/",
+    "license": "MIT",
+    "notes": [
+        "Files 以 MSIX 应用包（当前用户范围）安装：开始菜单项与 files-stable 命令别名由 Windows 自动注册，因此清单不提供 bin 与 shortcuts。",
+        "用户设置与数据保存在包数据目录 %LOCALAPPDATA%\\Packages\\Files_1y0xx7n9077q4（不在 Scoop persist 目录中）：Scoop 卸载时会把它移动到 persist\\files\\AppData，重新安装后自动还原；scoop uninstall files -p 则彻底删除。",
+        "系统要求 Windows 10 2004（19041）或更高版本；运行需要 .NET 10 桌面运行时（scoop install windowsdesktop-runtime-10.0），Windows App Runtime 2.x 与 VCLibs 依赖包已随本清单一起下载安装。",
+        "升级请使用 scoop update files：MSIX 就地更新，用户数据不受影响。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": [
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Files.Package_4.2.9.0_x64_arm64.msixbundle",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.appx",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.Desktop.appx",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/x64/Microsoft.WindowsAppRuntime.2.msix"
+            ],
+            "hash": [
+                "87bd06f897094fce4d14ec0d87f258c711477c6f1c5271b055c794b3aac7ff41",
+                "9c17b521f9d690a1f504da5108ed6eec5669eb3a8fd1331eef43e40d84e74283",
+                "077a3d1a5d0622bd3004dca85f5e192d6e98ec79b83d4aa06766759ea6c09c3d",
+                "a3ce5b76713133dfd3b378e81c43a89954c664fcd70fd0c070e409ed3de03ebf"
+            ]
+        },
+        "arm64": {
+            "url": [
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Files.Package_4.2.9.0_x64_arm64.msixbundle",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/ARM64/Microsoft.VCLibs.ARM64.14.00.appx",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/ARM64/Microsoft.VCLibs.ARM64.14.00.Desktop.appx",
+                "https://cdn.files.community/files/stable/Files.Package_4.2.9.0_Test/Dependencies/ARM64/Microsoft.WindowsAppRuntime.2.msix"
+            ],
+            "hash": [
+                "87bd06f897094fce4d14ec0d87f258c711477c6f1c5271b055c794b3aac7ff41",
+                "c73d0f55dda331f9dcbefc99ff5a420b62120773d2917387639382aa478533ee",
+                "831118f2f5cac8e29284e4ecc23bf4236436ccc2ea4a7c225c4946f8cfd29dd3",
+                "c32712449b36bb8caf4dc3c99fca4037c8840f23d1e2437b705bf4cc8a387ce1"
+            ]
+        }
+    },
+    "installer": {
+        "script": [
+            "$bundle = Get-ChildItem \"$dir\\*.msixbundle\" | Select-Object -First 1",
+            "if (!$bundle) { throw 'Files: MSIX app package (msixbundle) not found.' }",
+            "$deps = @(Get-ChildItem \"$dir\\Microsoft.VCLibs*.appx\", \"$dir\\Microsoft.WindowsAppRuntime.2.msix\" -ErrorAction SilentlyContinue)",
+            "try {",
+            "    Add-AppxPackage -Path $bundle.FullName -DependencyPath $deps.FullName -ForceTargetApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop",
+            "} catch {",
+            "    throw \"Files: failed to register the MSIX package ($($bundle.Name)). Install the Windows App Runtime first (scoop install Microsoft.WindowsAppRuntime.2) and retry. $_\"",
+            "}"
+        ]
+    },
+    "post_install": [
+        "$pkg = Get-AppxPackage -Name Files -ErrorAction SilentlyContinue",
+        "if (!$pkg) { throw 'Files: the MSIX package was not registered.' }",
+        "$dataDir = Join-Path $env:LOCALAPPDATA \"Packages\\$($pkg.PackageFamilyName)\"",
+        "$backup = Join-Path $persist_dir 'AppData'",
+        "if (Test-Path $backup) {",
+        "    $userFiles = @(Get-ChildItem $dataDir -Recurse -Force -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notlike '*\\Settings\\*' })",
+        "    if ($userFiles.Count -eq 0) {",
+        "        Remove-Item $dataDir -Recurse -Force -ErrorAction SilentlyContinue",
+        "        Move-Item $backup $dataDir -Force",
+        "        info 'Restored Files user data from the Scoop persist directory.'",
+        "    } else {",
+        "        warn \"Existing Files data in $dataDir was kept; the backup at $backup is left untouched.\"",
+        "    }",
+        "}"
+    ],
+    "uninstaller": {
+        "script": [
+            "$pkg = Get-AppxPackage -Name Files -ErrorAction SilentlyContinue",
+            "if (!$pkg) { warn 'Files: no MSIX package registration found, nothing to remove.'; return }",
+            "# 升级时不卸载应用包：MSIX 就地更新，用户数据保持不动",
+            "if ($version -and $manifest.version -and ($version -ne $manifest.version)) {",
+            "    info \"Files: updating $($manifest.version) -> $version, keeping the registered MSIX package (in-place update).\"",
+            "    return",
+            "}",
+            "$dataDir = Join-Path $env:LOCALAPPDATA \"Packages\\$($pkg.PackageFamilyName)\"",
+            "$backup = Join-Path $persist_dir 'AppData'",
+            "if ($purge) {",
+            "    Remove-AppxPackage -Package $pkg.PackageFullName -ErrorAction Stop",
+            "} else {",
+            "    if (Test-Path $dataDir) {",
+            "        $userFiles = @(Get-ChildItem $dataDir -Recurse -Force -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notlike '*\\Settings\\*' })",
+            "        if (($userFiles.Count -gt 0) -or !(Test-Path $backup)) {",
+            "            if (Test-Path $backup) { Remove-Item $backup -Recurse -Force }",
+            "            ensure $persist_dir | Out-Null",
+            "            Move-Item $dataDir $backup -Force",
+            "            info \"Moved Files user data to $backup (kept across reinstalls, removed by -p).\"",
+            "        }",
+            "    }",
+            "    Remove-AppxPackage -Package $pkg.PackageFullName -ErrorAction Stop",
+            "}"
+        ]
+    },
+    "checkver": {
+        "url": "https://cdn.files.community/files/stable/Files.Package.appinstaller",
+        "regex": "<AppInstaller[^>]*Version=\"(?<version>[\\d.]+)\""
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": [
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Files.Package_$version_x64_arm64.msixbundle",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.appx",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.Desktop.appx",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/x64/Microsoft.WindowsAppRuntime.2.msix"
+                ]
+            },
+            "arm64": {
+                "url": [
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Files.Package_$version_x64_arm64.msixbundle",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/ARM64/Microsoft.VCLibs.ARM64.14.00.appx",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/ARM64/Microsoft.VCLibs.ARM64.14.00.Desktop.appx",
+                    "https://cdn.files.community/files/stable/Files.Package_$version_Test/Dependencies/ARM64/Microsoft.WindowsAppRuntime.2.msix"
+                ]
+            }
+        },
+        "hash": {
+            "mode": "download"
+        }
+    }
+}
