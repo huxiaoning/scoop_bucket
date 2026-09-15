@@ -23,7 +23,7 @@
         "* IDE restart required after install/uninstall."
     ],
     "url": "https://ckey.run/ja-netfilter/ja-netfilter.jar",
-    "hash": "488126a2eb9ddf87e2092a3cdf39cdc6762306cd",
+    "hash": "0100484b6410660eca2c202f4a5bfd907763bdb323e1c07662c12dbde5ba8936",
     "installer": {
         "script": [
             "# Download plugins",
