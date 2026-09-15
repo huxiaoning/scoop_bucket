@@ -1,0 +1,63 @@
+{
+    "version": "3.8.0",
+    "description": "视频转字幕、字幕翻译、AI 配音与字幕烧录一站式桌面工具（妙幕） / Local video subtitle generation, translation, dubbing and burning tool",
+    "homepage": "https://smartsub.linxiaodong.com/",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/buxuku/SmartSub/releases/download/v3.8.0/SmartSub_Windows_3.8.0_x64.exe#/dl.7z",
+            "hash": "301ebfbc3bdca48704e314c672554155549256f7e5031be8f59731061a876987"
+        }
+    },
+    "pre_install": [
+        "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-64.7z\" \"$dir\"",
+        "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\`$R0\" -Force -Recurse -ErrorAction SilentlyContinue"
+    ],
+    "post_install": [
+        "$dataDir = \"$env:APPDATA\\smartsub\"",
+        "$persistData = \"$persist_dir\\smartsub\"",
+        "$linkOk = $false",
+        "if (Test-Path $dataDir) {",
+        "    $item = Get-Item $dataDir -Force",
+        "    if ($item.LinkType -eq 'Junction') {",
+        "        $target = (Resolve-Path $item.Target -ErrorAction SilentlyContinue).Path",
+        "        if (Test-Path $persistData) {",
+        "            $linkOk = $target -eq (Resolve-Path $persistData).Path",
+        "        }",
+        "        if (-not $linkOk) {",
+        "            Remove-Item $dataDir -Force -Recurse",
+        "        }",
+        "    } elseif (-not (Get-ChildItem $persistData -Force -ErrorAction SilentlyContinue)) {",
+        "        Remove-Item $persistData -Force -Recurse -ErrorAction SilentlyContinue",
+        "        Move-Item $dataDir $persistData",
+        "    } else {",
+        "        Move-Item $dataDir \"$dataDir.old\" -Force -ErrorAction SilentlyContinue",
+        "    }",
+        "}",
+        "if (-not $linkOk) {",
+        "    New-Item -ItemType Directory -Path $persistData -Force | Out-Null",
+        "    if (-not (Test-Path $dataDir)) {",
+        "        New-DirectoryJunction $dataDir $persistData | Out-Null",
+        "    }",
+        "}"
+    ],
+    "shortcuts": [
+        [
+            "SmartSub.exe",
+            "SmartSub"
+        ]
+    ],
+    "persist": "smartsub",
+    "notes": "应用内的「检查更新」下载的是官方安装包，会另行安装到用户目录。升级请使用 scoop update smartsub。",
+    "post_uninstall": "Remove-Item \"$env:APPDATA\\smartsub\" -Force -Recurse -ErrorAction SilentlyContinue",
+    "checkver": {
+        "github": "https://github.com/buxuku/SmartSub"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/buxuku/SmartSub/releases/download/v$version/SmartSub_Windows_$version_x64.exe#/dl.7z"
+            }
+        }
+    }
+}
