@@ -1,6 +1,6 @@
 # Open YTDownloader and put a URL on the clipboard. The user pastes it.
 # External Application Button:
-#   wt pwsh -NoExit -Command "ytdlopen [HREF]"
+#   wt pwsh -NoExit -Command "ytdlopen '[HREF]'"
 param(
     [Parameter(Mandatory = $true, Position = 0)]
     [string]$Url

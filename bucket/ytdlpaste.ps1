@@ -1,6 +1,6 @@
 # Send a URL to YTDownloader by pasting it into the focused main window.
 # External Application Button:
-#   wt pwsh -NoExit -Command "ytdlpaste [HREF]"
+#   wt pwsh -NoExit -Command "ytdlpaste '[HREF]'"
 param(
     [Parameter(Mandatory = $true, Position = 0)]
     [string]$Url

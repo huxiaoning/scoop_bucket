@@ -30,7 +30,7 @@
         "     Firefox: https://addons.mozilla.org/firefox/addon/external-application/",
         "     Edge can also install the Chrome extension from the Chrome Web Store.",
         "  3. In the extension, add this command:",
-        "     wt pwsh -NoExit -Command \"ytdlpaste [HREF]\"",
+        "     wt pwsh -NoExit -Command \"ytdlpaste '[HREF]'\"",
         "",
         "native-client is the local host that lets the extension run that command. ytdlpaste starts ytdownloader when it is not running, activates the ytDownloader window, copies the URL, and sends Ctrl+V.",
         "YTDownloader only starts a download from Ctrl+V while its home view is showing and focus is not inside a text box."
