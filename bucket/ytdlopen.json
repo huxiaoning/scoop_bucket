@@ -32,6 +32,6 @@
         "  3. In the extension, add this command:",
         "     wt pwsh -NoExit -Command \"ytdlopen '[HREF]'\"",
         "",
-        "native-client is the local host that lets the extension run that command. ytdlopen starts ytdownloader when it is not running, activates the ytDownloader window, and copies the URL. It does not send Ctrl+V; paste it yourself if you want to download."
+        "native-client is the local host that lets the extension run that command. ytdlopen copies the URL first, then starts ytdownloader when it is not running and activates the ytDownloader window. It does not send Ctrl+V; paste it yourself if you want to download."
     ]
 }

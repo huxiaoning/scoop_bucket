@@ -1,4 +1,4 @@
-# Open YTDownloader and put a URL on the clipboard. The user pastes it.
+# Put a URL on the clipboard, then open YTDownloader. The user pastes it.
 # External Application Button:
 #   wt pwsh -NoExit -Command "ytdlopen '[HREF]'"
 param(
@@ -11,6 +11,8 @@ $ErrorActionPreference = 'Stop'
 if ([string]::IsNullOrWhiteSpace($Url)) {
     throw 'A URL is required.'
 }
+
+Set-Clipboard -Value $Url
 
 Add-Type -TypeDefinition @'
 using System;
@@ -95,4 +97,3 @@ finally {
     }
 }
 
-Set-Clipboard -Value $Url
