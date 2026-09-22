@@ -3,7 +3,10 @@
     "description": "Paste a URL from External Application Button into YTDownloader.",
     "homepage": "https://github.com/huxiaoning/scoop_bucket",
     "license": "MIT",
-    "depends": "ytdownloader",
+    "depends": [
+        "ytdownloader",
+        "native-client"
+    ],
     "architecture": {
         "64bit": {
             "url": "https://raw.githubusercontent.com/ScoopInstaller/Main/master/.gitattributes",
@@ -20,9 +23,16 @@
     },
     "bin": "ytdlpaste.ps1",
     "notes": [
-        "External Application Button command:",
-        "  wt pwsh -NoExit -Command \"ytdlpaste [HREF]\"",
+        "Recommended setup:",
+        "  1. scoop install ytdownloader native-client ytdlpaste",
+        "  2. Install External Application Button:",
+        "     Chrome / Edge: https://chromewebstore.google.com/detail/external-application-butt/bifmfjgpgndemajpeeoiopbeilbaifdo",
+        "     Firefox: https://addons.mozilla.org/firefox/addon/external-application/",
+        "     Edge can also install the Chrome extension from the Chrome Web Store.",
+        "  3. In the extension, add this command:",
+        "     wt pwsh -NoExit -Command \"ytdlpaste [HREF]\"",
         "",
-        "The script starts ytdownloader when it is not running, activates the ytDownloader window, copies the URL, and sends Ctrl+V. YTDownloader only starts a download from Ctrl+V while its home view is showing and focus is not inside a text box."
+        "native-client is the local host that lets the extension run that command. ytdlpaste starts ytdownloader when it is not running, activates the ytDownloader window, copies the URL, and sends Ctrl+V.",
+        "YTDownloader only starts a download from Ctrl+V while its home view is showing and focus is not inside a text box."
     ]
 }
