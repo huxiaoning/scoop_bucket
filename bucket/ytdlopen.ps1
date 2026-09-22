@@ -31,26 +31,28 @@ function Get-YtDownloaderProcess {
     $candidates = @(Get-Process -Name 'YTDownloader' -ErrorAction SilentlyContinue)
     $visible = $candidates | Where-Object { $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -eq 'ytDownloader' } | Select-Object -First 1
     if ($visible) { return $visible }
-    return $candidates | Select-Object -First 1
+    return $null
+}
+
+function Start-YtDownloader {
+    $command = Get-Command 'ytdownloader' -ErrorAction SilentlyContinue
+    if (-not $command) {
+        throw 'ytdownloader is not installed. Run: scoop install ytdownloader'
+    }
+    Start-Process -FilePath $command.Source | Out-Null
 }
 
 $process = Get-YtDownloaderProcess
 $started = $false
-if (-not $process -or $process.MainWindowHandle -eq 0) {
-    if (-not $process) {
-        $command = Get-Command 'ytdownloader' -ErrorAction SilentlyContinue
-        if (-not $command) {
-            throw 'ytdownloader is not installed. Run: scoop install ytdownloader'
-        }
-        Start-Process -FilePath $command.Source | Out-Null
-        $started = $true
-    }
+if (-not $process) {
+    Start-YtDownloader
+    $started = $true
 
     $deadline = (Get-Date).AddSeconds(20)
     do {
         Start-Sleep -Milliseconds 250
         $process = Get-YtDownloaderProcess
-    } while ((-not $process -or $process.MainWindowHandle -eq 0) -and (Get-Date) -lt $deadline)
+    } while (-not $process -and (Get-Date) -lt $deadline)
 }
 
 if (-not $process -or $process.MainWindowHandle -eq 0) {
