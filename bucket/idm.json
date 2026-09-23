@@ -11,7 +11,16 @@
         "keep": true
     },
     "uninstaller": {
-        "script": "if (Test-Path \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\") { sudo Start-Process -Wait -PassThru \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\" '-skdlgs' | Out-Null }"
+        "script": [
+            "$running = Get-Process -Name 'IDMan', 'IDMMsgHost' -ErrorAction SilentlyContinue",
+            "if ($running) {",
+            "    error 'Internet Download Manager is running. Close it, then run scoop uninstall idm again.'",
+            "    exit 1",
+            "}",
+            "if (Test-Path \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\") {",
+            "    sudo Start-Process -Wait -PassThru \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\" '-skdlgs' | Out-Null",
+            "}"
+        ]
     },
     "checkver": {
         "url": "https://www.internetdownloadmanager.com/download.html",
