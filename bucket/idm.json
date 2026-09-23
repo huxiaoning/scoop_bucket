@@ -1,20 +1,24 @@
 {
-    "version": "643build10",
-    "description": "(IDM) is a tool to increase download speeds by up to 5 times, resume and schedule downloads.",
-    "license": "© ToneC",
-    "homepage": "http://www.internetdownloadmanager.com",
-    "url": "https://mirror2.internetdownloadmanager.com/idman643build10.exe#/idman-install.exe",
+    "version": "6.43.10",
+    "description": "Increase download speeds by up to 5 times, resume and schedule downloads.",
+    "homepage": "https://www.internetdownloadmanager.com",
+    "license": "Shareware",
+    "depends": "sudo",
+    "url": "https://download.internetdownloadmanager.com/idman643build10.exe#/idman-install.exe",
     "hash": "a79c0e275750bd9b15f83f1b2d71f4a09eed11a9d903e534448b322db2ed392b",
     "installer": {
-        "script": "Start-Process -Wait $dir\\idman-install.exe /skipdlgs",
+        "script": "sudo Start-Process -Wait -PassThru \"$dir\\idman-install.exe\" '/skipdlgs' | Out-Null",
         "keep": true
     },
+    "uninstaller": {
+        "script": "if (Test-Path \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\") { sudo Start-Process -Wait -PassThru \"${env:ProgramFiles(x86)}\\Internet Download Manager\\Uninstall.exe\" '-skdlgs' | Out-Null }"
+    },
     "checkver": {
-        "url": "http://www.internetdownloadmanager.com/download.html",
-        "regex": "idman([\\d]+)build([\\d]+)\\.exe",
-        "replace": "${1}build${2}"
+        "url": "https://www.internetdownloadmanager.com/download.html",
+        "regex": "idman(\\d)(\\d{2})build(\\d+)\\.exe",
+        "replace": "${1}.${2}.${3}"
     },
     "autoupdate": {
-        "url": "https://mirror2.internetdownloadmanager.com/idman$match1build$match2.exe#/idman-install.exe"
+        "url": "https://download.internetdownloadmanager.com/idman$match1$match2build$match3.exe#/idman-install.exe"
     }
 }
