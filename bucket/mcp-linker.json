@@ -1,16 +1,16 @@
 {
-    "version": "2.2.3",
+    "version": "2.2.4",
     "description": "A cross-platform desktop manager for MCP servers and clients using Tauri + React.",
     "homepage": "https://github.com/milisp/mcp-linker",
     "license": "AGPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/milisp/mcp-linker/releases/download/v2.2.3/MCPLinker_2.2.3_x64-setup.exe#/App.7z",
-            "hash": "a70ecd9a03231b2898691ec9863ffc5413610272414c828316da6371b98e5fec"
+            "url": "https://github.com/milisp/mcp-linker/releases/download/v2.2.4/MCPLinker_2.2.4_x64-setup.exe#/App.7z",
+            "hash": "543f35d5b83a2ebce5cb40c1b55fc9970bfe1a993fdf46b1f50eb52a6dfde82e"
         },
         "arm64": {
-            "url": "https://github.com/milisp/mcp-linker/releases/download/v2.2.3/MCPLinker_2.2.3_arm64-setup.exe#/App.7z",
-            "hash": "d6582b8938d632f69ee1956221da906cd1c534700e385bde08a250dae34d353e"
+            "url": "https://github.com/milisp/mcp-linker/releases/download/v2.2.4/MCPLinker_2.2.4_arm64-setup.exe#/App.7z",
+            "hash": "659d9a00a3d41555d8a742fabd15bbbaaddca55fdfb488d6a3fc82e69e2cd2bf"
         }
     },
     "pre_install": "Remove-Item \"$dir\\`$*\", \"$dir\\Uninstall*\" -Recurse",
