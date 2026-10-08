@@ -1,11 +1,11 @@
 {
-    "version": "6.43.14",
+    "version": "6.43.15",
     "description": "Increase download speeds by up to 5 times, resume and schedule downloads.",
     "homepage": "https://www.internetdownloadmanager.com",
     "license": "Shareware",
     "depends": "sudo",
-    "url": "https://download.internetdownloadmanager.com/idman643build14.exe#/idman-install.exe",
-    "hash": "5fbb5126ef5e7625d233f5c1c3bd664b6310c028fdfd1f0bc7ee81d15fc5983b",
+    "url": "https://download.internetdownloadmanager.com/idman643build15.exe#/idman-install.exe",
+    "hash": "a902e77169a3e4d8a88ee2ccaab11d3d43ab209483625a3602438ed4a22bbfd9",
     "installer": {
         "script": "sudo Start-Process -Wait -PassThru \"$dir\\idman-install.exe\" '/skipdlgs' | Out-Null",
         "keep": true
