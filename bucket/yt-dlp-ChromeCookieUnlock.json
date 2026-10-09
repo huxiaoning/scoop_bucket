@@ -7,7 +7,7 @@
     "hash": "sha256:3AD12DDC69B10B411287990FB3D4541417C2B3EFA7C72511F06F84E4C36DCFF3",
     "installer": {
         "script": [
-            "$pluginRoot = \"$env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\"",
+            "$pluginRoot = \"$env:USERPROFILE\\.config\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\"",
             "New-Item -ItemType Directory -Force -Path \"$pluginRoot\" | Out-Null",
             "Copy-Item \"$dir\\*\" \"$pluginRoot\" -Recurse -Force",
             "",
@@ -25,7 +25,7 @@
     },
     "uninstaller": {
         "script": [
-            "Remove-Item \"$env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\" -Recurse -Force -ErrorAction SilentlyContinue",
+            "Remove-Item \"$env:USERPROFILE\\.config\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\" -Recurse -Force -ErrorAction SilentlyContinue",
             "Remove-Item \"$env:USERPROFILE\\.config\\yt-dlp\\config\" -Force -ErrorAction SilentlyContinue"
         ]
     },
@@ -44,7 +44,7 @@
         "如果安装时检测到已存在的配置文件，会显示警告提示，请检查并合并配置。",
         "",
         "更多信息：",
-        "插件安装位置：%APPDATA%\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock",
+        "插件安装位置：~\\.config\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock",
         "插件项目地址：https://github.com/seproDev/yt-dlp-ChromeCookieUnlock"
     ],
     "checkver": "v([\\d.]+)",
