@@ -51,6 +51,7 @@
         "Use tdmfast-modified-test or the Start menu shortcut (Launch.cmd). Running TDM Fast.exe directly uses a different profile. UserData is persisted across updates and normal uninstalls.",
         "Uninstallation runs Restore-original.cmd before removing this copy; it does not alter a separate original installation.",
         "Unofficial experimental build: resuming unfinished downloads after restarting the app may corrupt files. Create a new download instead. Mandatory updates remain enabled and may be unstable.",
-        "Do not run this copy and the original together; both use port 37651. The optional Chrome extension is in resources\\extension."
+        "Do not run this copy and the original together; both use port 37651. The optional Chrome extension is in resources\\extension.",
+        "The bundled yt-dlp reads your global yt-dlp configuration. If YouTube reports 'The page needs to be reloaded' when using account cookies, add --extractor-args \"youtube:player_client=default,web_embedded\" to that configuration. Reinstalling yt-dlp-ChromeCookieUnlock recreates its configuration and removes custom options."
     ]
 }
