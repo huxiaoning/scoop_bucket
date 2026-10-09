@@ -5,6 +5,20 @@ scoop install huxiaoning_scoop_bucket/yt-dlp-ChromeCookieUnlock
 scoop uninstall huxiaoning_scoop_bucket/yt-dlp-ChromeCookieUnlock
 ```
 
+## TDM Fast 官方便携版
+
+清单：`bucket/tdmfast.json`。
+
+```powershell
+scoop install huxiaoning_scoop_bucket/tdmfast
+& 'TDM Fast-portable'
+```
+
+- 使用官网当前提供的便携包；安装时将带版本号的 EXE 重命名为稳定入口，快捷方式指向 `current`。
+- 上游未提供可靠的递增应用版本，Scoop 使用便携包 HTTP `Last-Modified` 的 UTC 时间作为版本号，并据此自动更新下载链接与哈希。
+- 下载功能需要官方授权激活，不是免费软件。
+- 官方程序将配置、任务和授权存放在 `%APPDATA%\freedm`，不使用 Scoop `persist`；普通卸载不会删除该目录。与其他官方副本共用这份数据，不要同时运行。
+
 ## TDM Fast 修改测试版
 
 清单：`bucket/tdmfast-modified-test.json`，与原版 `tdmfast` 分开安装。
