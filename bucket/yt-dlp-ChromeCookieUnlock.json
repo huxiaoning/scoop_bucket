@@ -9,12 +9,19 @@
         "script": [
             "$pluginRoot = \"$env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\"",
             "New-Item -ItemType Directory -Force -Path \"$pluginRoot\" | Out-Null",
-            "Copy-Item \"$dir\\*\" \"$pluginRoot\" -Recurse -Force"
+            "Copy-Item \"$dir\\*\" \"$pluginRoot\" -Recurse -Force",
+            "",
+            "$configDir = \"$env:USERPROFILE\\.config\\yt-dlp\"",
+            "$configFile = \"$configDir\\config\"",
+            "New-Item -ItemType Directory -Force -Path \"$configDir\" | Out-Null",
+            "$configContent = \"--impersonate chrome`n--cookies-from-browser chrome\"",
+            "Set-Content -Path \"$configFile\" -Value $configContent -Encoding UTF8 -Force"
         ]
     },
     "uninstaller": {
         "script": [
-            "Remove-Item \"$env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\" -Recurse -Force -ErrorAction SilentlyContinue"
+            "Remove-Item \"$env:APPDATA\\yt-dlp\\plugins\\yt-dlp-ChromeCookieUnlock\" -Recurse -Force -ErrorAction SilentlyContinue",
+            "Remove-Item \"$env:USERPROFILE\\.config\\yt-dlp\\config\" -Force -ErrorAction SilentlyContinue"
         ]
     },
     "notes": [
