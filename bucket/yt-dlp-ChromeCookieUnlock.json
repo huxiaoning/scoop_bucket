@@ -19,8 +19,8 @@
             "",
             "$altConfig1 = \"$env:USERPROFILE\\yt-dlp.conf\"",
             "$altConfig2 = \"$env:APPDATA\\yt-dlp\\config\"",
-            "if (Test-Path $altConfig1) { Write-Host \"WARNING: Existing config found at $altConfig1 (will be ignored)\" -ForegroundColor Yellow }",
-            "if (Test-Path $altConfig2) { Write-Host \"WARNING: Existing config found at $altConfig2 (will be ignored)\" -ForegroundColor Yellow }"
+            "if (Test-Path $altConfig1) { Write-Host \"WARNING: Existing config found at $altConfig1 (will be ignored)\" -ForegroundColor Red }",
+            "if (Test-Path $altConfig2) { Write-Host \"WARNING: Existing config found at $altConfig2 (will be ignored)\" -ForegroundColor Red }"
         ]
     },
     "uninstaller": {
