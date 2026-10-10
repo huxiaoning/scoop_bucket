@@ -46,7 +46,7 @@ scoop uninstall yt-dlp-bridge
 ```
 
 - 上游只有源码仓库、没有发布版：清单固定到具体 commit 的源码包，`checkver` 跟随 `main` 分支提交（版本号 = `0.<日期>.<短 SHA>`），`autoupdate` 同步更新下载地址与 `extract_dir`。
-- 依赖 `python`、`yt-dlp`、`ffmpeg`，安装时自动装齐；安装脚本会把本机解析出的可执行文件路径写进 `host_config.json`。
+- 依赖 `python312`、`yt-dlp`、`ffmpeg`，安装时自动装齐；安装脚本会把本机解析出的可执行文件路径写进 `host_config.json`。
 - 安装脚本向扩展 manifest 注入固定 key，扩展 ID 固定为 `lgcpalmplaikljdjgocplillnpaidock`，并据此注册 Chrome / Brave 的 native messaging host（`HKCU`，不需要管理员权限）。
 - 浏览器不允许脚本加载 unpacked 扩展，安装后需手动完成一次：`chrome://extensions/`（Brave 为 `brave://extensions/`）→ 开发者模式 → 加载已解压的扩展程序 → 选 `<scoop>\apps\yt-dlp-bridge\current\extension`。
 - 配置（yt-dlp/ffmpeg 路径、输出目录）位于 `<scoop>\persist\yt-dlp-bridge\host_config.json`，升级和普通卸载都不丢；默认输出到 `%USERPROFILE%\Downloads\YT` 与 `%USERPROFILE%\Downloads\Music`。
