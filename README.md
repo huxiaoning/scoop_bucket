@@ -51,3 +51,19 @@ scoop uninstall yt-dlp-bridge
 - 浏览器不允许脚本加载 unpacked 扩展，安装后需手动完成一次：`chrome://extensions/`（Brave 为 `brave://extensions/`）→ 开发者模式 → 加载已解压的扩展程序 → 选 `<scoop>\apps\yt-dlp-bridge\current\extension`。
 - 配置（yt-dlp/ffmpeg 路径、输出目录）位于 `<scoop>\persist\yt-dlp-bridge\host_config.json`，升级和普通卸载都不丢；默认输出到 `%USERPROFILE%\Downloads\YT` 与 `%USERPROFILE%\Downloads\Music`。
 - 上游项目：[exotic123567/yt-dlp-bridge](https://github.com/exotic123567/yt-dlp-bridge)。
+
+## Visual Studio Build Tools 2026
+
+清单：`bucket/vs_buildtools.json`。
+
+```powershell
+scoop install huxiaoning_scoop_bucket/vs_buildtools
+vcvarsall x64
+scoop uninstall vs_buildtools
+```
+
+- 只装 C++ 构建工具（`Microsoft.VisualStudio.Workload.VCTools` + MSVC x64/x86 工具集 + Windows 11 SDK），不装 Visual Studio IDE。
+- 产品安装在 `<scoop>\persist\vs_buildtools\VS`（安装缓存与共享目录也重定向到 `persist\vs_buildtools\cache`、`shared`）：升级清单、普通卸载都不删除；卸载通过 Visual Studio 安装程序的 `--installPath` 只卸载这一个实例，不影响机器上其他 Visual Studio 安装。Windows 11 SDK 组件按微软设计仍装到 `C:\Program Files (x86)\Windows Kits\10`（不受 `--path shared` 影响，约数 GB）。
+- 安装、更新、卸载都需要管理员权限（会弹出 UAC）；首次安装需下载数 GB，完成后建议重启系统。
+- 版本分两层：`checkver` 抓官方 Release History、`autoupdate` 同步固定版本引导程序的 URL 与哈希；安装后的产品跟随 VS 2026 Stable 通道，`scoop update` 调用安装程序 `update` 就地升级（不会降级，实际版本可能比 scoop 显示的更新）。
+- PowerShell 用 `vcvarsall [x64|x86|x64_x86|x64_arm64|...]` 导入编译环境；cmd 中用 `call VsDevCmd.bat` 或 `call vcvarsall.bat`（均已在 PATH 中）。
