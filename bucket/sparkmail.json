@@ -1,12 +1,12 @@
 {
-    "version": "3.31.6.141244",
+    "version": "3.31.5.141153",
     "license": "Proprietary",
     "description": "Spark is a cross-platform email client designed to filter out the noise and help you focus on what's important",
     "homepage": "https://www.sparkmailapp.com/",
     "architecture": {
         "64bit": {
-            "url": "https://downloads.sparkmailapp.com/Spark3/win/dist/3.31.6.141244/Spark.exe",
-            "hash": "9123aa1363eb66a9b43e3dcb8f7adb42350a2cf0fa080b3a13cbfdc316c61cd6",
+            "url": "https://downloads.sparkmailapp.com/Spark3/win/dist/3.31.5.141153/Spark.exe",
+            "hash": "dba0261f9ff7efcf17d4419d3c78389652e720b212cabbed88b51096a308b8fb",
             "installer": {
                 "args": [
                     "/S",
