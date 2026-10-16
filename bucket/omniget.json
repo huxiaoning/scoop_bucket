@@ -1,0 +1,51 @@
+{
+    "version": "0.12.0",
+    "description": "Universal downloader and media player: video, audio, images, courses and torrents from 1,800+ sites, with 36 course platforms and 158 offline study and media tools.",
+    "homepage": "https://omniget.nav.bd/",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/OpenSelena/omniget/releases/download/v0.12.0/omniget_0.12.0_x64-portable.exe",
+            "hash": "2b95b20bd07074adb2331b0f0d7757c926fa998165676231b7a4dd93d46635ce"
+        }
+    },
+    "pre_install": [
+        "$ErrorActionPreference = 'Stop'",
+        "# 上游便携版文件名带版本号，重命名后 bin/快捷方式不随版本变化",
+        "Move-Item -Force \"$dir\\$fname\" \"$dir\\OmniGet.exe\""
+    ],
+    "bin": "OmniGet.exe",
+    "shortcuts": [
+        [
+            "OmniGet.exe",
+            "OmniGet"
+        ]
+    ],
+    "persist": "data",
+    "post_install": [
+        "$ErrorActionPreference = 'Stop'",
+        "# 便携模式标记：程序据此把数据目录设为 $dir\\data（junction 到 persist\\omniget\\data），此处幂等重跑",
+        "if (-not (Test-Path \"$dir\\portable.txt\")) {",
+        "    New-Item -ItemType File -Path \"$dir\\portable.txt\" -Force | Out-Null",
+        "    info '[Portable Mode]: Created portable.txt, app data lives in persist\\omniget\\data'",
+        "}"
+    ],
+    "checkver": {
+        "github": "https://github.com/OpenSelena/omniget"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/OpenSelena/omniget/releases/download/v$version/omniget_$version_x64-portable.exe"
+            }
+        }
+    },
+    "notes": [
+        "便携模式：安装时由 post_install 在安装目录写入 portable.txt，程序据此把数据目录设为 <安装目录>\\data，并把 WebView2 的用户数据目录指到 data\\webview；persist 再把 data 接到 persist\\omniget\\data（junction）。设置、SQLite 历史、插件、Cookie、以及程序自动下载的 yt-dlp/FFmpeg/gallery-dl（data\\tools、data\\bin）都在其中，升级与卸载（不带 -p）都不会丢。",
+        "三种入口（开始菜单快捷方式、OmniGet shim、直接运行 apps\\omniget\\current\\OmniGet.exe）读同一份数据；便携模式下不会在 %APPDATA% 或 %LOCALAPPDATA% 生成 com.openselena.omniget 数据目录。",
+        "应用内更新会在 Scoop 之外装出第二份副本：设置页的检查更新下载的是官方 NSIS 安装包（latest.json 的 windows 条目指向 OmniGet_<版本>_x64-setup.exe），它会按自己的逻辑安装到用户目录。请始终用 scoop update omniget 升级。",
+        "便携模式下程序禁用「开机自启」（代码直接返回，不写 HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run）；首次运行会把 omniget:// 协议处理程序注册到当前用户，路径取实际启动所用的 exe——从快捷方式或 shim 启动时即 current 链接，升级后仍有效。",
+        "首次以便携模式启动时，若 data\\settings.json 不存在，会从 %APPDATA%\\com.openselena.omniget\\settings.json 复制一份设置过来（仅设置，不含历史数据库），便于从旧的非 Scoop 安装迁移偏好。",
+        "下载目录默认是系统下载文件夹（可在设置中改），不与 Scoop 安装目录相关；程序依赖 WebView2 运行时（Windows 11 与较新的 Windows 10 自带，缺失时应用无法启动）。"
+    ]
+}
