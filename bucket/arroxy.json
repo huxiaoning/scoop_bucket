@@ -1,7 +1,7 @@
 {
     "version": "0.4.27",
     "description": "Free open-source YouTube (and 2000+ other sites) downloader GUI built on yt-dlp: 4K/1080p60/HDR video, MP3 audio, playlists, channels and subtitles, with no ads or tracking.",
-    "homepage": "https://github.com/antonio-orionus/Arroxy",
+    "homepage": "https://orionus.dev/arroxy",
     "license": "MIT",
     "architecture": {
         "64bit": {
