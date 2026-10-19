@@ -1,7 +1,7 @@
 {
     "version": "0.3.15",
     "description": "Codex CLI 跨平台可视化增强管理器：提示词模板注入、Provider 切换与 TOML/JSON 配置管理",
-    "homepage": "https://yynxxxxx.github.io/Codex-X/",
+    "homepage": "https://codex-x.site",
     "license": "MIT",
     "architecture": {
         "64bit": {
