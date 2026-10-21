@@ -1,0 +1,90 @@
+{
+    "version": "1.14.2",
+    "description": "Android ADB desktop app for device management: apps, files, processes, performance, shell, screen casting, screenshots and logcat",
+    "homepage": "https://aya.liriliri.io/",
+    "license": {
+        "identifier": "AGPL-3.0-only",
+        "url": "https://github.com/liriliri/aya/blob/master/LICENSE"
+    },
+    "notes": [
+        "安装包是 electron-builder 的 NSIS 安装程序：安装时展开内层 app-64.7z 得到完整程序目录（AYA.exe 在根目录，自带 adb 与 scrcpy.jar），并清理 $PLUGINSDIR/$R0 等引导文件。",
+        "用户数据在 %APPDATA%\\AYA（Electron userData：data\\settings.json、data\\main.json、data\\devices.json、data\\screencast.json、adb 等）。本清单在安装时把该目录接到 persist\\aya\\userdata（目录 junction），所以 scoop update 与 scoop uninstall（不带 -p）都不会丢数据；加 -p 才会连数据一起删。",
+        "开始菜单快捷方式、aya shim、直接运行 apps\\aya\\current\\AYA.exe 都读同一份数据 —— 靠的是 %APPDATA%\\AYA 那个 junction，与安装目录和启动参数无关。",
+        "首次安装时如果 %APPDATA%\\AYA 已存在真实数据（官网安装版或 Microsoft Store 版留下的），安装脚本会把整份目录搬进 persist\\aya\\userdata 再用链接接上；如果 persist 里已有数据，旧目录会改名为 %APPDATA%\\AYA.old-<时间戳> 保留，由你决定是否合并。",
+        "菜单里的「检查更新」只会在确认后打开 https://aya.liriliri.io/ 下载页，不会在 Scoop 之外自行安装副本；升级请用 scoop update aya。",
+        "连接真机需要先在手机上开启「USB 调试」并授权调试密钥；ADB 由应用自带（resources\\adb），不需要额外安装 platform-tools。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/liriliri/aya/releases/download/v1.14.2/AYA-1.14.2-win-x64.exe#/dl.7z",
+            "hash": "e2f580ba4645a3593e8f055a894ae4633e3af8008b3755ee202a8e139b0c7a15"
+        }
+    },
+    "pre_install": [
+        "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-64.7z\" \"$dir\"",
+        "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\`$R0\" -Force -Recurse -ErrorAction SilentlyContinue"
+    ],
+    "post_install": [
+        "$ErrorActionPreference = 'Stop'",
+        "# AYA 把配置、设备列表、screencast 数据与 adb 副本写在 Electron userData（%APPDATA%\\AYA）；接到 persist 后升级/卸载（不带 -p）不丢数据",
+        "# 链接与安装目录、启动入口无关，快捷方式/shim/直接运行 exe 三种入口读的是同一份数据；每次升级重跑本脚本，已接好则跳过",
+        "$target = \"$persist_dir\\userdata\"",
+        "$link = \"$env:APPDATA\\AYA\"",
+        "if (-not (Test-Path $target)) { New-Item $target -ItemType Directory -Force | Out-Null }",
+        "$item = Get-Item $link -Force -ErrorAction SilentlyContinue",
+        "$linked = $null",
+        "if ($item.LinkType) { $linked = (Resolve-Path -Path @($item.Target)[0] -ErrorAction SilentlyContinue).Path }",
+        "if ($linked -eq (Resolve-Path -Path $target).Path) {",
+        "    info '[Link]: %APPDATA%\\AYA 已接到 persist\\aya\\userdata，跳过'",
+        "} elseif ($linked) {",
+        "    warn \"[Link]: %APPDATA%\\AYA 已是指向 $linked 的链接，保持不动（数据不落在 persist，本清单的持久化对它不生效）\"",
+        "} else {",
+        "    if ($item.LinkType) {",
+        "        # 断链：链接本身不是数据，摘掉重建",
+        "        Remove-Item -Path $link -Recurse -Force",
+        "    } elseif ($item) {",
+        "        # 真实的旧数据目录（官网/MS Store 安装版留下的）",
+        "        if (Get-ChildItem $target -Force) {",
+        "            Move-Item -Path $link -Destination \"$link.old-$(Get-Date -Format yyyyMMddHHmmss)\" -Force",
+        "            warn '[Link]: %APPDATA%\\AYA 里有旧数据而 persist 中已有数据，旧目录已改名保留，需要的话请手工合并'",
+        "        } else {",
+        "            Remove-Item -Path $target -Recurse -Force",
+        "            Move-Item -Path $link -Destination $target -Force",
+        "        }",
+        "    }",
+        "    New-Item -Path $link -ItemType Junction -Value $target | Out-Null",
+        "    info \"[Link]: %APPDATA%\\AYA -> $target\"",
+        "}"
+    ],
+    "uninstaller": {
+        "script": [
+            "# 只摘掉指向本清单 persist 的链接（数据本身留在 persist\\aya\\userdata，重装会重新接上）；指向别处的链接不动",
+            "$link = \"$env:APPDATA\\AYA\"",
+            "$item = Get-Item $link -Force -ErrorAction SilentlyContinue",
+            "$linked = $null",
+            "if ($item.LinkType) { $linked = (Resolve-Path -Path @($item.Target)[0] -ErrorAction SilentlyContinue).Path }",
+            "if ($linked -eq \"$persist_dir\\userdata\") {",
+            "    Remove-Item -Path $link -Recurse -Force",
+            "    info '[Link]: 已摘除 %APPDATA%\\AYA 链接，数据仍在 persist\\aya\\userdata'",
+            "}"
+        ]
+    },
+    "bin": "AYA.exe",
+    "shortcuts": [
+        [
+            "AYA.exe",
+            "AYA"
+        ]
+    ],
+    "persist": "userdata",
+    "checkver": {
+        "github": "https://github.com/liriliri/aya"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/liriliri/aya/releases/download/v$version/AYA-$version-win-x64.exe#/dl.7z"
+            }
+        }
+    }
+}
