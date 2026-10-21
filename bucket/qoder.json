@@ -10,6 +10,7 @@
         }
     },
     "innosetup": true,
+    "extract_dir": "{code_GetDestDir}",
     "bin": [
         [
             "Qoder IDE.exe",
