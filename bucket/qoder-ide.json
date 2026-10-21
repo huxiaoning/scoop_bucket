@@ -1,0 +1,39 @@
+{
+    "version": "1.35.0",
+    "description": "AI-powered development environment with intelligent code completion, generation, and agents",
+    "homepage": "https://qoder.com",
+    "license": "Proprietary",
+    "architecture": {
+        "64bit": {
+            "url": "https://download.qoder.com/release/1.35.0/QoderIDEUserSetup-x64.exe#/setup.exe",
+            "hash": "4937f169b55f38b8f74f540cfb311543afb5c079119ea26a30b70db072d24e26"
+        }
+    },
+    "innosetup": true,
+    "bin": [
+        [
+            "Qoder IDE.exe",
+            "qoder-ide"
+        ],
+        "bin\\qoder.cmd",
+        "bin\\code.cmd"
+    ],
+    "shortcuts": [
+        [
+            "Qoder IDE.exe",
+            "Qoder IDE"
+        ]
+    ],
+    "checkver": {
+        "url": "https://docs.qoder.com/release-notes/desktop",
+        "regex": "(\\d+\\.\\d+\\.\\d+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://download.qoder.com/release/$version/QoderIDEUserSetup-x64.exe#/setup.exe"
+            }
+        }
+    }
+}
+
