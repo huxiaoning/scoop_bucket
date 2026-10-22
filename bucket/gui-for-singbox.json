@@ -1,0 +1,64 @@
+{
+    "version": "1.28.1",
+    "description": "A GUI program for SingBox developed by vue3 + wails.",
+    "homepage": "https://github.com/GUI-for-Cores/GUI.for.SingBox",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v1.28.1/GUI.for.SingBox-windows-amd64.zip",
+            "hash": "b281ae02d8a83bb5df154de175b110d109ce781750b6f6bd8e66d223bb2331e3"
+        },
+        "32bit": {
+            "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v1.28.1/GUI.for.SingBox-windows-386.zip",
+            "hash": "c57c5bde567ba8809f664f7f68ccd7fa596aa199369218263207506cbaa34922"
+        },
+        "arm64": {
+            "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v1.28.1/GUI.for.SingBox-windows-arm64.zip",
+            "hash": "2c2bedcb2b7b9ddfb3f4ef2edaff2f96e9219f33ee36064ca058791cebd9b763"
+        }
+    },
+    "depends": "sing-box",
+    "bin": "GUI.for.SingBox.exe",
+    "shortcuts": [
+        [
+            "GUI.for.SingBox.exe",
+            "GUI.for.SingBox"
+        ]
+    ],
+    "persist": "data",
+    "post_install": [
+        "if (!(Test-Path \"$persist_dir\\data\\user.yaml\") -or !(Get-Item \"$persist_dir\\data\\user.yaml\").Length) {",
+        "    New-Item \"$persist_dir\\data\" -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null",
+        "    Set-Content -Path \"$persist_dir\\data\\user.yaml\" -Value \"lang: zh`nkernel:`n  branch: main`nrollingRelease: false\"",
+        "}",
+        "$singboxDir = \"$persist_dir\\data\\sing-box\"",
+        "New-Item $singboxDir -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null",
+        "if (!(Test-Path \"$singboxDir\\sing-box.exe\")) {",
+        "    try {",
+        "        $singbox = (scoop which sing-box)",
+        "        New-Item -ItemType SymbolicLink -Target $singbox -Path \"$singboxDir\\sing-box.exe\" -ErrorAction Stop | Out-Null",
+        "    } catch {",
+        "        Copy-Item -Path \"$scoopdir\\shims\\sing-box.exe\" -Destination \"$singboxDir\\sing-box.exe\" -Force",
+        "        Copy-Item -Path \"$scoopdir\\shims\\sing-box.shim\" -Destination \"$singboxDir\\sing-box.shim\" -Force",
+        "    }",
+        "}"
+    ],
+    "pre_uninstall": [
+        "Get-Process -Name 'GUI.for.SingBox' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue",
+        "Remove-Item \"$env:APPDATA\\GUI.for.SingBox.exe\" -Recurse -Force -ErrorAction SilentlyContinue"
+    ],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v$version/GUI.for.SingBox-windows-amd64.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v$version/GUI.for.SingBox-windows-386.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/GUI-for-Cores/GUI.for.SingBox/releases/download/v$version/GUI.for.SingBox-windows-arm64.zip"
+            }
+        }
+    }
+}
