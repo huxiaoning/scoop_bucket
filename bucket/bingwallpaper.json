@@ -1,0 +1,75 @@
+{
+    "version": "2.0.2.1",
+    "description": "“必应壁纸”包含必应主页上特别推荐的一批来自世界各地的精美图片。您不仅每天都会在桌面上看到一个新图像，而且还可以浏览图像并了解其来源。",
+    "homepage": "https://bingwallpaper.microsoft.com/Windows/bing/bing-wallpaper/",
+    "license": "Freeware",
+    "notes": [
+        "用户数据目录：%LOCALAPPDATA%\\Microsoft\\BingWallpaperApp，本清单将其链接到 persist\\bingwallpaper\\LocalAppData。",
+        "升级和 scoop uninstall（不带 -p）不会删除壁纸、配置等数据。",
+        "Microsoft 新版 1.1.x 已改为 MSIX 安装器，与旧版 2.x 的安装结构不兼容，因此本清单固定使用 2.0.2.1，不配置自动更新。"
+    ],
+    "url": "https://download.microsoft.com/download/7770f936-2ce6-43e9-8608-d6ee2df9718e/Installer/2.0.2.1/Bing/W011/BingWallpaper.exe#/dl.7z",
+    "hash": "cf70785d43a8be365cc7767312c63d4449ba133a4ab4baaae11400b8b4b05b49",
+    "extract_to": "installer",
+    "installer": {
+        "script": [
+            "Expand-MsiArchive \"$dir\\installer\\BWCInstaller.msi\" -DestinationPath \"$dir\\Programs\" -ExtractDir 'Microsoft\\BingWallpaperApp'",
+            "Remove-Item \"$dir\\installer\" -Recurse -Force | Out-Null",
+            "",
+            "$dataPath = \"$env:LocalAppData\\Microsoft\\BingWallpaperApp\"",
+            "$persistPath = \"$persist_dir\\LocalAppData\"",
+            "New-Item -ItemType Directory -Path $persistPath -Force | Out-Null",
+            "if (Test-Path -LiteralPath $dataPath) {",
+            "    $item = Get-Item -LiteralPath $dataPath -Force",
+            "    if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {",
+            "        $item.Delete()",
+            "    } else {",
+            "        & robocopy $dataPath $persistPath /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null",
+            "        if ($LASTEXITCODE -gt 7) {",
+            "            warn \"Failed to migrate existing data from $dataPath, keeping the original directory.\"",
+            "            return",
+            "        }",
+            "        $backup = \"$dataPath.backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')\"",
+            "        try {",
+            "            Move-Item -LiteralPath $dataPath -Destination $backup -Force",
+            "            info \"Original data directory backed up to $backup\"",
+            "        } catch {",
+            "            warn \"Could not rename the original directory: $dataPath\"",
+            "            return",
+            "        }",
+            "    }",
+            "}",
+            "New-Item -ItemType Junction -Path $dataPath -Value $persistPath | Out-Null",
+            "info \"Linked $dataPath -> $persistPath\""
+        ]
+    },
+    "pre_uninstall": [
+        "Get-Process -Name 'BingWallpaperApp', 'BWCUpdater' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue",
+        "$dataPath = \"$env:LocalAppData\\Microsoft\\BingWallpaperApp\"",
+        "if (Test-Path -LiteralPath $dataPath) {",
+        "    $item = Get-Item -LiteralPath $dataPath -Force",
+        "    if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {",
+        "        $item.Delete()",
+        "    }",
+        "}"
+    ],
+    "uninstaller": {
+        "script": [
+            "foreach ($path in @(",
+            "    'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run',",
+            "    'HKCU:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run',",
+            "    'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run',",
+            "    'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run'",
+            ")) {",
+            "    Remove-ItemProperty -Path $path -Name 'BingWallpaperApp' -ErrorAction SilentlyContinue",
+            "}"
+        ]
+    },
+    "shortcuts": [
+        [
+            "Programs\\BingWallpaperApp.exe",
+            "Bing Wallpaper"
+        ]
+    ],
+    "persist": "LocalAppData"
+}
