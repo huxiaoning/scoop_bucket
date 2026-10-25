@@ -1,12 +1,12 @@
 {
-    "version": "2.2.4",
+    "version": "2.3.0",
     "description": "免费开源的视频下载器：从 YouTube、Bilibili、TikTok 等 1000+ 网站下载视频、音频与字幕，可在本机生成带说话人和时间戳的可搜索文稿，再用 AI 做摘要、翻译或问答。",
     "homepage": "https://vidbee.org/",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nexmoe/VidBee/releases/download/v2.2.4/vidbee-2.2.4-windows-portable.zip",
-            "hash": "65ab81dcd687d11877ce635259b7e2fb75b0fe60be4acc22b5bab1b38fcda3be"
+            "url": "https://github.com/nexmoe/VidBee/releases/download/v2.3.0/vidbee-2.3.0-windows-portable.zip",
+            "hash": "6cf62289d442856a2086fd5f3a7cdd05a4f04a1844563695feb6b281c759991d"
         }
     },
     "extract_dir": "VidBee-portable",
