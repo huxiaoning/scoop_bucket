@@ -1,12 +1,12 @@
 {
-    "version": "3.11.0",
+    "version": "3.12.0",
     "description": "视频转字幕、字幕翻译、AI 配音与字幕烧录一站式桌面工具（妙幕） / Local video subtitle generation, translation, dubbing and burning tool",
     "homepage": "https://smartsub.linxiaodong.com/",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/buxuku/SmartSub/releases/download/v3.11.0/SmartSub_Windows_3.11.0_x64.exe#/dl.7z",
-            "hash": "c16a3d15398c8abd1cc016c799500b28dc8d19d980a3fc2897f9bef38603cfc5"
+            "url": "https://github.com/buxuku/SmartSub/releases/download/v3.12.0/SmartSub_Windows_3.12.0_x64.exe#/dl.7z",
+            "hash": "9b26847932868528ad0740eba1c3232af10fd333fc32eac1e93eb76d306dc755"
         }
     },
     "pre_install": [
