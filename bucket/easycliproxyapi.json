@@ -1,5 +1,5 @@
 {
-    "version": "0.3.104",
+    "version": "0.3.106",
     "description": "A portable desktop GUI for CLIProxyAPI: core lifecycle, OAuth, provider aggregation, and agent client configuration.",
     "homepage": "https://github.com/router-for-me/EasyCLIProxyAPI",
     "license": "MIT",
@@ -12,14 +12,14 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/router-for-me/EasyCLIProxyAPI/releases/download/v0.3.104/EasyCLIProxyAPI-v0.3.104-Windows-amd64.zip",
-            "hash": "4c7d45be66e205fa176fbd1a1d59e9b266f8d4f43c308a3f7b18c0b8fb98cd89",
-            "extract_dir": "EasyCLIProxyAPI-v0.3.104-Windows-amd64"
+            "url": "https://github.com/router-for-me/EasyCLIProxyAPI/releases/download/v0.3.106/EasyCLIProxyAPI-v0.3.106-Windows-amd64.zip",
+            "hash": "7324140c360095b0bedeb7f4885489953df1721d1f3d642fd9df98ac188a0c18",
+            "extract_dir": "EasyCLIProxyAPI-v0.3.106-Windows-amd64"
         },
         "arm64": {
-            "url": "https://github.com/router-for-me/EasyCLIProxyAPI/releases/download/v0.3.104/EasyCLIProxyAPI-v0.3.104-Windows-aarch64.zip",
-            "hash": "b9d50fa2f6501e14666b0dcb11b97d344ccce6c5a5449d3043a5d51686ad0b00",
-            "extract_dir": "EasyCLIProxyAPI-v0.3.104-Windows-aarch64"
+            "url": "https://github.com/router-for-me/EasyCLIProxyAPI/releases/download/v0.3.106/EasyCLIProxyAPI-v0.3.106-Windows-aarch64.zip",
+            "hash": "4016f37f3dd52f0d91eb2297c93bb998a7982d9c1cef8ac58328293f21ed7368",
+            "extract_dir": "EasyCLIProxyAPI-v0.3.106-Windows-aarch64"
         }
     },
     "pre_install": [
