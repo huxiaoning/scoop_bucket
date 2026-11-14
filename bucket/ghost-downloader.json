@@ -1,12 +1,12 @@
 {
-    "version": "4.5.3",
+    "version": "4.5.4",
     "description": "跨平台多线程下载器，支持 HTTP/FTP/BitTorrent/M3U8/MPEG-DASH/eD2k，可嗅探网页媒体并录制直播流。",
     "homepage": "https://gd.xychr.com/",
     "license": "GPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/XiaoYouChR/Ghost-Downloader-3/releases/download/v4.5.3/Ghost-Downloader-v4.5.3-Windows-x86_64.zip",
-            "hash": "17ffcf953668901d5e00d46643394460da85f88cd2bec69847d4dd6aadcd19eb"
+            "url": "https://github.com/XiaoYouChR/Ghost-Downloader-3/releases/download/v4.5.4/Ghost-Downloader-v4.5.4-Windows-x86_64.zip",
+            "hash": "16d4a60188dbb097b93042cab97877ec21fec8c35eb61e09fca63e4b4d358bcd"
         }
     },
     "bin": "bin\\ghd.exe",
