@@ -1,5 +1,5 @@
 {
-    "version": "8.2.5",
+    "version": "..",
     "description": "滴答清单（Dida365）：待办事项、日程安排与习惯打卡工具，支持多端同步",
     "homepage": "https://www.dida365.com/",
     "license": {
@@ -15,15 +15,15 @@
     "architecture": {
         "64bit": {
             "url": "https://www.dida365.com/static/getApp/download?type=win64#/dida_setup.exe",
-            "hash": "5382e872503c3a2d8faab309f7bda76bacc178ef9a891f0546d9db666938cf5b"
+            "hash": "0fff473d830d40db0df2c86a8d012ea4a3fe81b06ff95631a9b1476821a9ce6e"
         },
         "32bit": {
             "url": "https://www.dida365.com/static/getApp/download?type=win#/dida_setup.exe",
-            "hash": "3990dcce66c896e5c422a83ca2d7cdd538e218a6bd05efbde911a4a9407fa6dc"
+            "hash": "047895b9df6bf0883f36a6f0bc24e695734cfe4f4bf4d3b7be34f44d3a4c825c"
         },
         "arm64": {
             "url": "https://www.dida365.com/static/getApp/download?type=win_arm64#/dida_setup.exe",
-            "hash": "f5f0f17447fee944d8417e42329f737df70f5f12d94044b520af74ee02bc1429"
+            "hash": "084bee15b9e30935d6551cdc83f5e271be7557ec33bbd11603cef40e30116814"
         }
     },
     "installer": {
