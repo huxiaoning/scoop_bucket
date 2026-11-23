@@ -1,16 +1,16 @@
 {
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "A free desktop terminal for running several coding agents at once, with a sidebar that shows each agent's state and one key to jump to the one waiting on you.",
     "homepage": "https://quanticstudios.github.io/pitwall/",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/quanticstudios/pitwall/releases/download/v0.3.3/pitwall_windows_amd64.zip",
-            "hash": "16126a2b4d67a64e100b7af8cb3458255a9b50ec55bb3f38a7be1f1acd40fda4"
+            "url": "https://github.com/quanticstudios/pitwall/releases/download/v0.3.4/pitwall_windows_amd64.zip",
+            "hash": "0dc59937074c04c041523715254c97b8d1803dba81c5c19afb54c316f160239f"
         },
         "arm64": {
-            "url": "https://github.com/quanticstudios/pitwall/releases/download/v0.3.3/pitwall_windows_arm64.zip",
-            "hash": "19fe26af9d00ab8787a8e3ca499c3e914675f888d0ec0815a6552e6cc2c3f379"
+            "url": "https://github.com/quanticstudios/pitwall/releases/download/v0.3.4/pitwall_windows_arm64.zip",
+            "hash": "81bcba78fcd148ccf141766dfb84000d812785f535dbd71634e17d3fda24d6d7"
         }
     },
     "bin": "pitwall.exe",
