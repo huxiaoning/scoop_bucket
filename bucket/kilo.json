@@ -1,5 +1,5 @@
 {
-    "version": "7.8.32",
+    "version": "7.8.40",
     "description": "Open-source terminal AI coding agent from Kilo Code, with 500+ models, BYOK support and sandboxed auto mode.",
     "homepage": "https://kilo.ai/cli",
     "license": "MIT",
@@ -15,12 +15,12 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://registry.npmjs.org/@kilocode/cli-windows-x64/-/cli-windows-x64-7.8.32.tgz",
-            "hash": "sha512:5ff04882c2cc973674c9dd6424735d19cb32438c14486e09c479d09506681bb9458cc9d2de71f04873d62905d8434e5f0f8d45717ad891b3089879ebfd226e8d"
+            "url": "https://registry.npmjs.org/@kilocode/cli-windows-x64/-/cli-windows-x64-7.8.40.tgz",
+            "hash": "sha512:0051261792d2011cdb062173868eb24504b1d630b430275c73b194474bca18e0058fe217683aa2ddad0ec48ba53f373caed006d11937181723e19002aa303fde"
         },
         "arm64": {
-            "url": "https://registry.npmjs.org/@kilocode/cli-windows-arm64/-/cli-windows-arm64-7.8.32.tgz",
-            "hash": "sha512:23fcc95e69f57b4afef00fc3ade952e511ad2c32e1fbacec4d857bafec0e7ccc1058479c145c5e148ef0af784116c36d8b7d14d8f62080955029de50238abe5b"
+            "url": "https://registry.npmjs.org/@kilocode/cli-windows-arm64/-/cli-windows-arm64-7.8.40.tgz",
+            "hash": "sha512:2382664d549bcc63c95b4ed9c76f29c2b017ffdc67ec3b671434c3ce3e804b6011b41e97348ed6ec2f8e3330adc7d847d99cee5e4051b03ba328e678c1f1ad89"
         }
     },
     "extract_dir": "package\\bin",
