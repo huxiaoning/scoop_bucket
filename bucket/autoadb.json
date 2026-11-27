@@ -6,8 +6,9 @@
     "notes": [
         "与本 bucket 的 autoadb-wireless（nchietala/AutoADB）是两个不同的项目，只是同名。",
         "本工具（rom1v/autoadb）监听本地 adb server：设备一旦连接就执行给定命令， `{}` 会被替换为设备序列号。",
-        "典型用法1：autoadb scrcpy -s {}    —— 插入设备即自动启动 scrcpy。",
-        "典型用法2：autoadb adb -s {} reverse tcp:17890 tcp:7890    —— 插入设备即自动建立 reverse 端口转发（设备访问 PC 7890 代理）。",
+        "典型用法1：autoadb scrcpy -s '{}'    —— 插入设备即自动启动 scrcpy。",
+        "典型用法2：autoadb adb -s '{}' reverse tcp:17890 tcp:7890    —— 插入设备即自动建立 reverse 端口转发（设备访问 PC 7890 代理）。",
+        "注意：PowerShell 下 '{}' 必须加引号，否则 {} 会被当作 script block 执行，adb 会报 unknown command。",
         "需要 adb 在 PATH 中（Android SDK platform-tools）。",
         "二进制为非官方构建（huxiaoning/autoadb fork 发布），源码 commit 7f84029，cargo x86_64-pc-windows-gnu 编译。"
     ],
