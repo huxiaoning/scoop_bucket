@@ -1,0 +1,35 @@
+{
+    "version": "1.0",
+    "description": "Execute a command whenever a device is adb-connected (rom1v/autoadb, Rust implementation)",
+    "homepage": "https://github.com/rom1v/autoadb",
+    "license": "Apache-2.0",
+    "notes": [
+        "与本 bucket 的 autoadb（nchietala/AutoADB）是两个不同的项目，只是同名。",
+        "本工具（rom1v/autoadb）监听本地 adb server：设备一旦连接就执行给定命令， `{}` 会被替换为设备序列号。",
+        "典型用法：autoadb-rs scrcpy -s {}    —— 插入设备即自动启动 scrcpy（shim 名为 autoadb-rs，避免与本 bucket autoadb 冲突）。",
+        "需要 adb 在 PATH 中（Android SDK platform-tools）。",
+        "二进制为非官方构建（huxiaoning/autoadb fork 发布），源码 commit 7f84029，cargo x86_64-pc-windows-gnu 编译。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/huxiaoning/autoadb/releases/download/v1.0/autoadb.exe",
+            "hash": "48eec2665e5b2bf69436a6f1c73543287eae74fc3acd5bcb3276e7eaff15bbdc"
+        }
+    },
+    "bin": [
+        [
+            "autoadb.exe",
+            "autoadb-rs"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/huxiaoning/autoadb"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/huxiaoning/autoadb/releases/download/v$version/autoadb.exe"
+            }
+        }
+    }
+}
